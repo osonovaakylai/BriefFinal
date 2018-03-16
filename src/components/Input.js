@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SingleInput = (props) => (
+const Input = (props) => (
 	<div className="form-group">
 		<input
 			className="form-input"
@@ -12,8 +12,9 @@ const SingleInput = (props) => (
 	</div>
 );
 
-SingleInput.propTypes = {
+Input.propTypes = {
 	inputType: React.PropTypes.oneOf(['text', 'number']).isRequired,
+	title: React.PropTypes.string.isRequired,
 	name: React.PropTypes.string.isRequired,
 	controlFunc: React.PropTypes.func.isRequired,
 	content: React.PropTypes.oneOfType([
@@ -23,4 +24,4 @@ SingleInput.propTypes = {
 	placeholder: React.PropTypes.string,
 };
 
-export default SingleInput;
+export default Input;

@@ -9,7 +9,6 @@ class App extends Component {
       <div className="container">
         <div className="columns">
           <div className="col-md-9 centered">
-            <h3>React.js Controlled Form Components</h3>
             <FormContainer />
           </div>
         </div>
