@@ -7,8 +7,9 @@
   },
   "dependencies": {
     "react": "^15.3.2",
+    "react-cookie": "^2.1.4",
     "react-dom": "^15.3.2",
-    "spectre.css": "^0.1.27"
+    "spectre.css": "^0.1.32"
   },
   "scripts": {
     "start": "react-scripts start",

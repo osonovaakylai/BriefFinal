@@ -1,14 +1,14 @@
 import React from 'react';
 
-const CheckboxOrRadioGroup = (props) => (
+const CheckboxGroup = (props) => (
 	<div>
 		
 		<div className="checkbox-group form-group">
 			{props.options.map(option => {
 				return (
-					<label key={option} className="form-radio form-label capitalize">
+					<label key={option} className="form-checkbox form-label capitalize">
 						<input
-							className="form-radio"
+							className="form-checkbox"
 							name={props.setName}
 							onChange={props.controlFunc}
 							value={option}
@@ -23,7 +23,7 @@ const CheckboxOrRadioGroup = (props) => (
 	</div>
 );
 
-CheckboxOrRadioGroup.propTypes = {
+CheckboxGroup.propTypes = {
 	title: React.PropTypes.string.isRequired,
 	type: React.PropTypes.oneOf(['checkbox', 'radio']).isRequired,
 	setName: React.PropTypes.string.isRequired,
@@ -32,4 +32,4 @@ CheckboxOrRadioGroup.propTypes = {
 	controlFunc: React.PropTypes.func.isRequired
 };
 
-export default CheckboxOrRadioGroup;
+export default CheckboxGroup;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CheckboxOrRadioGroup from '../components/CheckboxOrRadioGroup';
+import CheckboxGroup from '../components/CheckboxGroup';
 import SingleInput from '../components/SingleInput';
 import TextArea from '../components/TextArea';
 
@@ -9,18 +10,14 @@ class FormContainer extends Component {
 		this.state = {
 			languageSelections: [],
 			selectedLanguage: [],
-			platformSelections: [],
-			selectedPlatform: [],
-			partSelections: [],
-			selectedPart: [],
 			styleOptions: [],
 			styleSelection: [],
 			bannerOptions: [],
 			bannerSelection: [],
 			deadlineOptions: [],
 			deadlineSelection: [],
-			designOptions: [],
-			designSelection: [],
+			counterOptions: [],
+			counterSelection: [],
 			see: '',
 			do: '',
 			feel: '',
@@ -31,18 +28,32 @@ class FormContainer extends Component {
 			konkurenti: [{ name: '' }],
 			geography: [{ name: '' }],
 			shareholders: [{ name: '' }],
+			scene: [{ name: '' }],
 			ownerAgeRangeSelection: '',
 			siblingOptions: [],
 			siblingSelection: [],
-			description: ''
+			description: '',
+			typeSelections: [],
+			selectedType: [],
+			selectedChapter:[],
+			chapterSelections: [],
+  			"chapterAnother": [],			
+			styleAnother: [],
+			impression: '',
+			actionCall:'',
+			componentSelections: [],
+			componentAnother:[],
+			selectedComponent:[],
+			typeAnother: []
 		};
 		this.handleLanguageSelections = this.handleLanguageSelections.bind(this);
-		this.handlePlatformSelections = this.handlePlatformSelections.bind(this);
-		this.handlePartSelections = this.handlePartSelections.bind(this);
+		this.handleComponentSelections = this.handleComponentSelections.bind(this);
+		this.handleTypeSelections = this.handleTypeSelections.bind(this);
+		this.handleChapterSelections = this.handleChapterSelections.bind(this);
 		this.handleBannerSelection = this.handleBannerSelection.bind(this);
 		this.handleDeadlineSelection = this.handleDeadlineSelection.bind(this);
 		this.handleStyleSelection = this.handleStyleSelection.bind(this);
-		this.handleDesignSelection = this.handleDesignSelection.bind(this);
+		this.handleCounterSelection = this.handleCounterSelection.bind(this);
 		this.handleSeeChange = this.handleSeeChange.bind(this);
 		this.handleDoChange = this.handleDoChange.bind(this);
 		this.handleFeelChange = this.handleFeelChange.bind(this);
@@ -50,6 +61,15 @@ class FormContainer extends Component {
 		this.handleClearForm = this.handleClearForm.bind(this);
 		this.handleSiblingsSelection = this.handleSiblingsSelection.bind(this);
 		this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+		this.handleTypesSelection = this.handleTypesSelection.bind(this);
+		this.handleChaptersSelection = this.handleChaptersSelection.bind(this);
+		this.handleStyleAnother = this.handleStyleAnother.bind(this);
+		this.handleTypeAnother = this.handleTypeAnother.bind(this);
+		this.handleChapterAnother = this.handleChapterAnother.bind(this);
+		this.handleComponentAnother = this.handleComponentAnother.bind(this);
+		this.handleImpressionChange = this.handleImpressionChange.bind(this);
+		this.handleactionCallChange = this.handleactionCallChange.bind(this);
+		
 	}
 	componentDidMount() {
 		fetch('./fake_db.json')
@@ -58,19 +78,15 @@ class FormContainer extends Component {
 				this.setState({
 					languageSelections: data.languageSelections,
 					selectedLanguage: data.selectedLanguage,
-					platformSelections: data.platformSelections,
-					selectedPlatform: data.selectedPlatform,
-					partSelections: data.partSelections,
-					selectedPart: data.selectedPart,
-					styleOptions: data.styleOptions,
+					styleOptions:data.styleOptions,
 					styleSelection: data.styleSelection,
 					bannerOptions: data.bannerOptions,
 					bannerSelection: data.bannerSelection,
 					deadlineOptions: data.deadlineOptions,
 					deadlineSelection: data.deadlineSelection,
-					designOptions: data.designOptions,
-					designSelection: data.designSelection,
-					color: data.color,
+					counterOptions: data.counterOptions,
+					counterSelection: data.counterSelection,
+					color:data.color,
 					content: data.content,
 					see: data.see,
 					do: data.do,
@@ -80,22 +96,30 @@ class FormContainer extends Component {
 					konkurenti: data.konkurenti,
 					geography: data.geography,
 					shareholders: data.shareholders,
+					scene: data.scene,
 					siblingOptions: data.siblingOptions,
 					siblingSelection: data.siblingSelection,
-					description: data.description
+					description: localStorage.getItem('description'),
+					typeSelection:data.typeSelection,
+					typeOptions:data.typeOptions,
+					chapterOptions: data.chapterOptions,
+					chapterSelection: data.chapterSelection,
+					styleAnother: data.styleAnother,
+					impression: data.impression,
+					actionCall: data.actionCall,
+					componentSelections: data.componentSelections,
+					componentAnother: data.componentAnother,
+					selectedComponent: data.selectedComponent,
+					typeSelections: data.typeSelections,
+					selectedType: data.selectedType,
+					typeAnother: data.typeAnother,
+					chapterSelections: data.chapterSelections,
+					selectedChapter: data.selectedChapter,
+					chapterAnother: data.chapterAnother
 				});
 			});
 	}
-	handlePlatformSelections(e) {
-		const newSelection = e.target.value;
-		let newSelectionArray;
-		if (this.state.selectedPlatform.indexOf(newSelection) > -1) {
-			newSelectionArray = this.state.selectedPlatform.filter(s => s !== newSelection)
-		} else {
-			newSelectionArray = [...this.state.selectedPlatform, newSelection];
-		}
-		this.setState({ selectedPlatform: newSelectionArray }, () => console.log('platform selection', this.state.selectedPlatform));
-	}
+	
 	handleLanguageSelections(e) {
 		const newSelection = e.target.value;
 		let newSelectionArray;
@@ -104,59 +128,109 @@ class FormContainer extends Component {
 		} else {
 			newSelectionArray = [...this.state.selectedLanguage, newSelection];
 		}
-		this.setState({ selectedLanguage: newSelectionArray }, () => console.log('language selection', this.state.selectedLanguage));
+		this.setState({ selectedLanguage: newSelectionArray }, () => {localStorage.setItem('language selection', this.state.selectedLanguage)});
 	}
-	handlePartSelections(e) {
+
+	handleComponentSelections(e) {
 		const newSelection = e.target.value;
 		let newSelectionArray;
-		if (this.state.selectedPart.indexOf(newSelection) > -1) {
-			newSelectionArray = this.state.selectedPart.filter(s => s !== newSelection)
+		if (this.state.selectedComponent.indexOf(newSelection) > -1) {
+			newSelectionArray = this.state.selectedComponent.filter(s => s !== newSelection)
 		} else {
-			newSelectionArray = [...this.state.selectedPart, newSelection];
+			newSelectionArray = [...this.state.selectedComponent, newSelection];
 		}
-		this.setState({ selectedPart: newSelectionArray }, () => console.log('part selection', this.state.selectedPart));
+		this.setState({ selectedComponent: newSelectionArray }, () => {localStorage.setItem('component selection', this.state.selectedComponent)});
 	}
+
+	handleTypeSelections(e) {
+		const newSelection = e.target.value;
+		let newSelectionArray;
+		if (this.state.selectedType.indexOf(newSelection) > -1) {
+			newSelectionArray = this.state.selectedType.filter(s => s !== newSelection)
+		} else {
+			newSelectionArray = [...this.state.selectedType, newSelection];
+		}
+		this.setState({ selectedType: newSelectionArray }, () => {localStorage.setItem('type selection', this.state.selectedType)});
+	}
+
+	handleChapterSelections(e) {
+		const newSelection = e.target.value;
+		let newSelectionArray;
+		if (this.state.selectedChapter.indexOf(newSelection) > -1) {
+			newSelectionArray = this.state.selectedChapter.filter(s => s !== newSelection)
+		} else {
+			newSelectionArray = [...this.state.selectedChapter, newSelection];
+		}
+		this.setState({ selectedChapter: newSelectionArray }, () => {localStorage.setItem('chapter selection', this.state.selectedChapter)});
+	}
+
 	handleStyleSelection(e) {
-		this.setState({ styleSelection: [e.target.value] }, () => console.log('style', this.state.styleSelection));
+		this.setState({ styleSelection: [e.target.value] }, () => {localStorage.setItem('style', this.state.selectstyleSelectionedPart)});
 	}
+
+	handleStyleAnother(e) {
+		this.setState({ styleAnother: [e.target.value] }, () => {localStorage.setItem('anotherStyle', this.state.styleAnother)});
+	}
+
+	handleComponentAnother(e) {
+		this.setState({ componentAnother: [e.target.value] }, () => {localStorage.setItem('anotherComponent', this.state.componentAnother)});
+	}
+
+	handleTypeAnother(e) {
+		this.setState({ typeAnother: [e.target.value] }, () => {localStorage.setItem('anotherType', this.state.typeAnother)});
+	}
+
+	handleChapterAnother(e) {
+		this.setState({ chapterAnother: [e.target.value] }, () => {localStorage.setItem('anotherChapter', this.state.chapterAnother)});
+	}
+
 	handleDeadlineSelection(e) {
-		this.setState({ deadlineSelection: [e.target.value] }, () => console.log('deadline', this.state.deadlineSelection));
+		this.setState({ deadlineSelection: [e.target.value] }, () => {localStorage.setItem('deadline', this.state.deadlineSelection)});
 	}
 	handleBannerSelection(e) {
-		this.setState({ bannerSelection: [e.target.value] }, () => console.log('banner', this.state.bannerSelection));
+		this.setState({ bannerSelection: [e.target.value] }, () => {localStorage.setItem('banner', this.state.bannerSelection)});
 	}
 	handleSiblingsSelection(e) {
-		this.setState({ siblingSelection: [e.target.value] }, () => console.log('update', this.state.siblingSelection));
+		this.setState({ siblingSelection: [e.target.value] }, () => {localStorage.setItem('update', this.state.siblingSelection)});
+	}
+	handleTypesSelection (e){
+		this.setState({ typeSelection: [e.target.value] }, () => {localStorage.setItem('type', this.state.typeSelection)});
+	}
+	handleChaptersSelection (e){
+		this.setState({ chapterSelection: [e.target.value] }, () => {localStorage.setItem('chapter', this.state.chapterSelection)});
 	}
 	handleDescriptionChange(e) {
-		// const textArray = e.target.value.split('').filter(x => x !== 'e');
-		// console.log('string split into array of letters',textArray);
-		// const filteredText = textArray.join('');
-		// this.setState({ description: filteredText }, () => console.log('description', this.state.description));
-		this.setState({ description: e.target.value }, () => console.log('description:', this.state.description));
+		this.setState({ description: e.target.value }, () => {localStorage.setItem('description', this.state.description)});		
 	}
+
+	handleImpressionChange(e) {
+		this.setState({ impression: e.target.value }, () => {localStorage.setItem('impression', this.state.impression)});		
+	}
+
+	handleactionCallChange(e) {
+		this.setState({ actionCall: e.target.value }, () => {localStorage.setItem('actionCall', this.state.actionCall)});		
+	}
+
 	handleSeeChange(e) {
-		this.setState({ see: e.target.value }, () => console.log('see:', this.state.see));
+		this.setState({ see: e.target.value }, () => {localStorage.setItem('see:', this.state.see)});
 	}
 	handleDoChange(e) {
-		this.setState({ do: e.target.value }, () => console.log('do:', this.state.do));
+		this.setState({ do: e.target.value }, () => {localStorage.setItem('do:', this.state.do)});
 	}
 	handleFeelChange(e) {
-		this.setState({ feel: e.target.value }, () => console.log('feel:', this.state.feel));
+		this.setState({ feel: e.target.value }, () => {localStorage.setItem('feel:', this.state.feel)});
 	}
-	handleDesignSelection(e) {
-		this.setState({ designSelection: [e.target.value] }, () => console.log('design', this.state.designSelection));
+	handleCounterSelection(e) {
+		this.setState({ counterSelection: [e.target.value] }, () => {localStorage.setItem('counter', this.state.counterSelection)});
 	}
 	handleClearForm(e) {
 		e.preventDefault();
 		this.setState({
-			selectedPlatform: [],
 			selectedLanguage: [],
-			selectedPart: [],
 			styleSelection: [],
 			deadlineSelection: [],
 			bannerSelection: [],
-			designSelection: [],
+			counterSelection: [],
 			color: [{ name: '' }],
 			content: [{ name: '' }],
 			see: '',
@@ -167,8 +241,18 @@ class FormContainer extends Component {
 			auditoria: [{ name: '' }],
 			geography: [{ name: '' }],
 			shareholders: [{ name: '' }],
+			scene: [{ name: '' }],
 			siblingSelection: [],
-			description: ''
+			description: '',
+			typeSelection: '',
+			typeOptions: '',
+			styleAnother: [],
+			impression: '',
+			actionCall: '',
+			selectedComponent: [],
+			selectedType:[],
+			selectedChapter:[],
+			chapterAnother:[]
 		});
 	}
 	handleFormSubmit(e) {
@@ -178,13 +262,11 @@ class FormContainer extends Component {
 		// console.log(shareholders);
 
 		const formPayload = {
-			selectedPlatform: this.state.selectedPlatform,
 			selectedLanguage: this.state.selectedLanguage,
-			selectedPart: this.state.selectedPart,
 			styleSelection: this.state.styleSelection,
 			bannerSelection: this.state.bannerSelection,
 			deadlineSelection: this.state.deadlineSelection,
-			designSelection: this.state.designSelection,
+			counterSelection: this.state.counterSelection,
 			color: this.state.color,
 			content: this.state.content,
 			see: this.state.see,
@@ -195,13 +277,27 @@ class FormContainer extends Component {
 			auditoria: this.state.auditoria,
 			geography: this.state.geography,
 			shareholders: this.state.shareholders,
+			scene: this.state.scene,
 			siblingSelection: this.state.siblingSelection,
-			description: this.state.description
+			description: this.state.description,
+			typeSelection: this.state.typeSelection,
+			typeOptions: this.state.typeOptions,
+			styleAnother: this.state.styleAnother,
+			impression: this.state.impression,
+			actionCall: this.state.actionCall,
+			selectedComponent: this.state.selectedComponent,
+			selectedType: this.state.selectedType,
+			typeAnother: this.state.typeAnother,
+			selectedChapter: this.state.selectedChapter,
+			chapterAnother: this.chapterAnother
 		};
 
-		// console.log('Send this in a POST request:', formPayload);
-		let myjson = JSON.stringify(formPayload);
+		let myjson = [];
+		myjson = JSON.stringify(formPayload);
 		console.log(myjson);
+		localStorage.setItem("form", JSON.stringify(formPayload));
+		let storedJson = JSON.parse(localStorage.getItem("form"));
+		console.log(storedJson);
 		this.handleClearForm(e);
 	}
 
@@ -246,6 +342,22 @@ class FormContainer extends Component {
 	}
 	handleAddShareholder = () => {
 		this.setState({ shareholders: this.state.shareholders.concat([{ name: '' }]) });
+	}
+
+	handleAddStyleAnother = () => {
+		this.setState({ styleAnother: this.state.styleAnother.concat([{name: ''}]) });
+	}
+
+	handleAddComponentAnother = () => {
+		this.setState({ componentAnother: this.state.componentAnother.concat([{name: ''}]) });
+	}
+
+	handleAddTypeAnother = () => {
+		this.setState({ typeAnother: this.state.typeAnother.concat([{name: ''}]) });
+	}
+
+	handleAddChapterAnother = () => {
+		this.setState({ chapterAnother: this.state.chapterAnother.concat([{name: ''}]) });
 	}
 
 	handleRemoveShareholder = (idx) => () => {
@@ -300,6 +412,22 @@ class FormContainer extends Component {
 		this.setState({ konkurenti: this.state.konkurenti.filter((s, sidx) => idx !== sidx) });
 	}
 
+	handleSceneNameChange = (idx) => (evt) => {
+		const newScene = this.state.scene.map((scene, sidx) => {
+			if (idx !== sidx) return scene;
+			return { ...scene, name: evt.target.value };
+		});
+
+		this.setState({ scene: newScene });
+	}
+	handleAddScene = () => {
+		this.setState({ scene: this.state.scene.concat([{ name: '' }]) });
+	}
+
+	handleRemoveScene = (idx) => () => {
+		this.setState({ scene: this.state.scene.filter((s, sidx) => idx !== sidx) });
+	}
+
 
 
 	handleGeographyNameChange = (idx) => (evt) => {
@@ -322,10 +450,10 @@ class FormContainer extends Component {
 	render() {
 		return (
 			<form className="container" onSubmit={this.handleFormSubmit}>
-				<h3>Бриф на разработку мобильного приложения</h3>
+				<h1 className="title">Бриф на разработку сайта</h1>
 				<p>Пожалуйста, заполните бриф максимально подробно. Это позволит нам определить конкретные сроки и стоимость разработки.</p>
 				<p>Распечатайте и заполните бриф.Срок оценки брифа 2-3 рабочих дня.</p>
-				<h3>Сфера деятельности компании</h3>
+				<h5>Сфера деятельности компании</h5>
 				<TextArea
 					title={''}
 					rows={5}
@@ -334,87 +462,203 @@ class FormContainer extends Component {
 					name={'textarea_activity'}
 					controlFunc={this.handleDescriptionChange}
 					placeholder={''} />
-				<h3>Характеристики основных услуг:</h3>
+					
+				<h5>Характеристики основных услуг:</h5>
 				{this.state.shareholders.map((shareholder, idx) => (
-					<div>
+					<div className="item">
+						<span className="input_span">{`${idx + 1}  `}</span>
 						<SingleInput
 							inputType={'text'}
 							name={shareholder.name}
 							controlFunc={this.handleShareholderNameChange(idx)}
 							content={shareholder.name}
-							placeholder={`${idx + 1}.  `}
+							placeholder={``}
 						/>
-						<button type="button" onClick={this.handleRemoveShareholder(idx)} className="small">-</button>
+						<button type="button" onClick={this.handleRemoveShareholder(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
 					</div>
 				))}
-				<button type="button" onClick={this.handleAddShareholder} className="small">Добавить</button>
-				<h4>География реализация товаров, услуг:</h4>
+				<button type="button" onClick={this.handleAddShareholder} className="small button_add"><i className="icon icon-plus"></i></button>
+
+				<h5>География реализация товаров, услуг:</h5>
 				{this.state.geography.map((geography, idx) => (
-					<div>
+					<div  className="item">
+						<span className="input_span">{`${idx + 1}  `}</span>
 						<SingleInput
 							inputType={'text'}
 							name={geography.name}
 							controlFunc={this.handleGeographyNameChange(idx)}
 							content={geography.name}
-							placeholder={`${idx + 1}.  `}
+							placeholder={``}
 						/>
-						<button type="button" onClick={this.handleRemoveGeography(idx)} className="small">-</button>
+						<button type="button" onClick={this.handleRemoveGeography(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
 					</div>
 				))}
-				<button type="button" onClick={this.handleAddGeography} className="small">Добавить</button>
+				<button type="button" onClick={this.handleAddGeography} className="small button_add"><i className="icon icon-plus"></i></button>
 
-				<h4>Кто является основным потребителем (целевая аудитория сайта):</h4>
+				<h5>Кто является основным потребителем (целевая аудитория сайта):</h5>
 				{this.state.auditoria.map((auditoria, idx) => (
-					<div>
+					<div  className="item">
+						<span className="input_span">{`${idx + 1}  `}</span>
 						<SingleInput
 							inputType={'text'}
 							name={auditoria.name}
 							controlFunc={this.handleAuditoriaNameChange(idx)}
 							content={auditoria.name}
-							placeholder={`${idx + 1}.  `}
+							placeholder={``}
 						/>
-						<button type="button" onClick={this.handleRemoveAuditoria(idx)} className="small">-</button>
+						<button type="button" onClick={this.handleRemoveAuditoria(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
 					</div>
 				))}
-				<button type="button" onClick={this.handleAddAuditoria} className="small">Добавить</button>
-				<h4>Конкуренты и их приложения (аналоги):</h4>
-				<p>(напишите пожалуйста в формате “название приложение - ссылка на установку”</p>
-				<sub>Пример: Uber - https://itunes.apple.com/us/app/uber/id368677368?mt=8</sub>
+				<button type="button" onClick={this.handleAddAuditoria} className="small button_add"><i className="icon icon-plus"></i></button>
+
+				<h5>Конкуренты, их веб-ресурсы:</h5>
 				{this.state.konkurenti.map((konkurenti, idx) => (
-					<div>
+					<div  className="item">
+						<span className="input_span">{`${idx + 1}  `}</span>
 						<SingleInput
-							inputType={'text'}
-							name={konkurenti.name}
-							controlFunc={this.handleKonkurentiNameChange(idx)}
-							content={konkurenti.name}
-							placeholder={`${idx + 1}.  `}
+						inputType={'text'}
+						name={konkurenti.name}
+						controlFunc={this.handleKonkurentiNameChange(idx)}
+						content={konkurenti.name}
+						placeholder={`Название и url:  `}
 						/>
-						<button type="button" onClick={this.handleRemoveKonkurenti(idx)} className="small">-</button>
+						<button type="button" onClick={this.handleRemoveKonkurenti(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
 					</div>
 				))}
-				<button type="button" onClick={this.handleAddKonkurenti} className="small">Добавить</button>
-				<h4>Задачи, которые должен решать сайт:</h4>
+				<button type="button" onClick={this.handleAddKonkurenti} className="small button_add"><i className="icon icon-plus"></i></button>
+
+				<h5>Задачи, которые должен решать сайт:</h5>
 				{this.state.task.map((task, idx) => (
-					<div>
+					<div  className="item">
+						<span className="input_span">{`${idx + 1}  `}</span>
 						<SingleInput
 							inputType={'text'}
 							name={task.name}
 							controlFunc={this.handleTaskNameChange(idx)}
 							content={task.name}
-							placeholder={`${idx + 1}.  `}
+							placeholder={``}
 						/>
-						<button type="button" onClick={this.handleRemoveTask(idx)} className="small">-</button>
+						<button type="button" onClick={this.handleRemoveTask(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
 					</div>
 				))}
-				<button type="button" onClick={this.handleAddTask} className="small">Добавить</button>
-				<h5>Частота предполагаемых обновлений приложения:</h5>
+				<button type="button" onClick={this.handleAddTask} className="small button_add"><i className="icon icon-plus"></i></button>
+
+				<h5>Тип сайта:</h5>
+				<CheckboxGroup 
+					setName={'selectedType'}
+					type={'checkbox'}
+					controlFunc={this.handleTypeSelections}
+					options={this.state.typeSelections}
+					selectedOptions={this.state.selectedType} />
+				<button type="button" onClick={this.handleAddTypeAnother} className="btn_another_check">Другое</button>
+				{this.state.typeAnother.map((typeAnother, idx) => (
+				<div  className="item">
+					<span className="input_span">{`${idx + 1}  `}</span>
+					<SingleInput
+						inputType={'anotherType'}
+						name={typeAnother.name}
+						controlFunc={this.selectTypeAnother}
+						content={typeAnother.name}
+						placeholder={``}
+					/>
+				</div>
+				))}
+
+				<h5>Основные разделы сайта (описать точную структуру разделов сайта):</h5>
+				<CheckboxGroup
+					setName={'selectedChapter'}
+					type={'checkbox'}
+					controlFunc={this.handleChapterSelections}
+					options={this.state.chapterSelections}
+					selectedOptions={this.state.selectedChapter} />
+					<button type="button" onClick={this.handleAddChapterAnother} className="btn_another_check">Другое</button>
+				{this.state.chapterAnother.map((chapterAnother, idx) => (
+				<div  className="item">
+					<span className="input_span">{`${idx + 1}  `}</span>
+					<SingleInput
+						inputType={'anotherChapter'}
+						name={chapterAnother.name}
+						controlFunc={this.selectChapterAnother}
+						content={chapterAnother.name}
+						placeholder={``}
+					/>
+				</div>
+				))}
+
+				<h5>Частота предполагаемых обновлений сайта:</h5>
 				<CheckboxOrRadioGroup
 					setName={'siblings'}
 					controlFunc={this.handleSiblingsSelection}
 					type={'radio'}
 					options={this.state.siblingOptions}
-					selectedOptions={this.state.siblingSelection} />				
-				<h4>Что вы хотите, чтобы пользователь в результате посещения сайта</h4>
+					selectedOptions={this.state.siblingSelection} />
+				<h5>Языковые версии сайта:</h5>	
+				<CheckboxGroup
+					setName={'selectedLanguage'}
+					type={'checkbox'}
+					controlFunc={this.handleLanguageSelections}
+					options={this.state.languageSelections}
+					selectedOptions={this.state.selectedLanguage} />
+
+				<h5>Контент сайта</h5>
+				<p>(на примере сайта для публикации новостей. На сайте будут новости, которые будут состоять из заголовка и описания)</p>
+				{this.state.content.map((content, idx) => (
+					<div  className="item">
+						<span className="input_span">{`${idx + 1}  `}</span>
+						<SingleInput
+							inputType={'text'}
+							name={content.name}
+							controlFunc={this.handleContentNameChange(idx)}
+							content={content.name}
+							placeholder={``}
+						/>
+						<button type="button" onClick={this.handleRemoveContent(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
+					</div>
+				))}
+				<button type="button" onClick={this.handleAddContent} className="small button_add"><i className="icon icon-plus"></i></button>
+
+				<h5>Стиль сайта</h5>
+				<CheckboxOrRadioGroup
+					setName={'style'}
+					controlFunc={this.handleStyleSelection}
+					type={'radio'}
+					options={this.state.styleOptions}
+					selectedOptions={this.state.styleSelection} />
+				<button type="button" onClick={this.handleAddStyleAnother} className="btn_another_radio	">Другое</button>
+				{this.state.styleAnother.map((styleAnother, idx) => (
+				<div  className="item">
+					<span className="input_span">{`${idx + 1}  `}</span>
+					<SingleInput
+						inputType={'anotherStyle'}
+						name={styleAnother.name}
+						controlFunc={this.selectStyleAnother}
+						content={styleAnother.name}
+						placeholder={``}
+					/>
+				</div>
+				))}
+
+				<h5>Впечатление, которое должен произвести сайт на пользователя:</h5>
+				<TextArea
+					title={''}
+					rows={5}
+					resize={false}
+					content={this.state.impression}
+					name={'impression'}
+					controlFunc={this.handleImpressionChange}
+					placeholder={''} />
+
+				<h5>Какое основное сообщение необходимо довести до сознания потребителя (призыв к действию):</h5>
+				<TextArea
+					title={''}
+					rows={5}
+					resize={false}
+					content={this.state.actionCall}
+					name={'impression'}
+					controlFunc={this.handleactionCallChange}
+					placeholder={''} />
+
+				<h5>Что вы хотите, чтобы пользователь в результате посещения сайта</h5>
 				<SingleInput
 					inputType={'text'}
 					title={''}
@@ -437,111 +681,104 @@ class FormContainer extends Component {
 					content={this.state.feel}
 					placeholder={'Почувствовал:'} />
 
-				<h4>Контент внутри приложения </h4>
-				<p>(на примере сайта для вызова такси - список всех заказов, список таксистов что работает в текущую смену и т.п)</p>
-				{this.state.content.map((content, idx) => (
-					<div>
-						<SingleInput
-							inputType={'text'}
-							name={content.name}
-							controlFunc={this.handleContentNameChange(idx)}
-							content={content.name}
-							placeholder={`${idx + 1}.  `}
-						/>
-						<button type="button" onClick={this.handleRemoveContent(idx)} className="small">-</button>
-					</div>
-				))}
-				<button type="button" onClick={this.handleAddContent} className="small">Добавить</button>
-				<h4>Цветовая гамма</h4>
+				<h5>Цветовая гамма</h5>
 				<p>(не нужно заполнять, если есть брендбук)</p>
 				{this.state.color.map((color, idx) => (
-					<div>
+					<div  className="item">
+						<span className="input_span">{`${idx + 1}  `}</span>
 						<SingleInput
 							inputType={'text'}
 							name={color.name}
 							controlFunc={this.handleColorNameChange(idx)}
 							content={color.name}
-							placeholder={`${idx + 1}.  `}
+							placeholder={``}
 						/>
-						<button type="button" onClick={this.handleRemoveColor(idx)} className="small">-</button>
+						<button type="button" onClick={this.handleRemoveColor(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
 					</div>
 				))}
-				<button type="button" onClick={this.handleAddColor} className="small">Добавить</button>
-				<h4>На каких платформах планируете размещать приложение</h4>
-				<sub>(пожалуйста отметьте звездочками, что из них приоритетнее: *** - высокий приоритет, ** - средний, * - низкий)
-				</sub>
-				<br />
-				<br />
-				<p>Например: <br /> Play Market ***</p>
-				<CheckboxOrRadioGroup
-					setName={'selectedPlatform'}
+				<button type="button" onClick={this.handleAddColor} className="small button_add"><i className="icon icon-plus"></i></button>
+
+				<h5>Компоненты сайта:</h5>
+				<CheckboxGroup
+					setName={'selectedComponent'}
+					controlFunc={this.handleComponentSelections}
 					type={'checkbox'}
-					controlFunc={this.handlePlatformSelections}
-					options={this.state.platformSelections}
-					selectedOptions={this.state.selectedPlatform} />
-				<h4>Языковые версии</h4>	
-				<CheckboxOrRadioGroup
-					setName={'selectedLanguage'}
-					type={'checkbox'}
-					controlFunc={this.handleLanguageSelections}
-					options={this.state.languageSelections}
-					selectedOptions={this.state.selectedLanguage} />
-				<h4>Компоненты/окна:</h4>	
-				<CheckboxOrRadioGroup
-					setName={'selectedPart'}
-					type={'checkbox'}
-					controlFunc={this.handlePartSelections}
-					options={this.state.partSelections}
-					selectedOptions={this.state.selectedPart} />
-				<h5>Кто будет разрабатывать дизайн?</h5>
-				<CheckboxOrRadioGroup
-					setName={'design'}
-					controlFunc={this.handleDesignSelection}
-					type={'radio'}
-					options={this.state.designOptions}
-					selectedOptions={this.state.designSelection} />
-				<h5>Предусматривать ли место под баннерную рекламу (AdMob):</h5>
+					selectedOptions={this.state.selectedComponent}
+					options={this.state.componentSelections} />
+				<button type="button" onClick={this.handleAddComponentAnother} className="btn_another_check">Другое</button>
+				{this.state.componentAnother.map((componentAnother, idx) => (
+				<div className="item">
+					<span className="input_span">{`${idx + 1}  `}</span>
+					<SingleInput
+						inputType={'anotherComponent'}
+						name={componentAnother.name}
+						controlFunc={this.selectcomponentAnother}
+						content={componentAnother.name}
+						placeholder={``}
+					/>
+				</div>
+				))}
+
+				<h5>Предусматривать ли место под баннерную рекламу:</h5>
 				<CheckboxOrRadioGroup
 					setName={'banner'}
 					controlFunc={this.handleBannerSelection}
 					type={'radio'}
 					options={this.state.bannerOptions}
 					selectedOptions={this.state.bannerSelection} />
-				<h5>Стиль сайта</h5>
+
+				<h5>Предусматривать ли место для счетчиков посещений:</h5>
 				<CheckboxOrRadioGroup
-					setName={'style'}
-					controlFunc={this.handleStyleSelection}
+					setName={'counter'}
+					controlFunc={this.handleCounterSelection}
 					type={'radio'}
-					options={this.state.styleOptions}
-					selectedOptions={this.state.styleSelection} />
-				<h5>Сроки исполнения заказа (сколько готов ждать заказчик):</h5>
+					options={this.state.counterOptions}
+					selectedOptions={this.state.counterSelection} />
+				
+			
+				<h5>Срок исполнения заказа (сколько готов ждать заказчик):</h5>
 				<CheckboxOrRadioGroup
 					setName={'deadline'}
 					controlFunc={this.handleDeadlineSelection}
 					type={'radio'}
 					options={this.state.deadlineOptions}
 					selectedOptions={this.state.deadlineSelection} />
-				<input
-					type="submit"
-					className="btn btn-primary float-right"
-					value="Submit" />
-				<button
-					className="btn btn-link float-left"
-					onClick={this.handleClearForm}>Clear form</button>
-				<br />
-				<br />
+				
 				<h5 className="clearfix">Пользовательский сценарий</h5>
 				<p className="clearfix" >(описать шаги, как посетители  будут взаимодействовать с приложением) Чем больше сценарий, тем лучше мы поймем видение клиента.</p>
-				<p>На примере Yandex Taxi</p>
+				<p>На примере интернет магазина:</p>
 				<ol>
-					<li> Скачал приложение “Yandex Taxi” из Play Marketa</li>
-					<li> Запустил приложение, на главной экране увидел карту города с указанием моего месмтоположения</li>
-					<li> Нажал на кнопку “ куда?” </li>
-					<li> Ввел адрес конечного пункта, затем нажал на кнопку “вызвать такси”</li>
-					<li> На карте города, появились таксисты что находятся рядом со мной</li>
-					<li> Приложение выбрала самого первого такси</li>
-					<li> Появилось сообщение “Водитель И.И.ИВанов на автомобиле Subaru Forester с гос.номером S 1234 A выехал к Вам!” </li>
+					<li> Посетитель зашел на сайт интернет магазина по адресу  www.name.com</li>
+					<li> На главной странице увидел товар, нажал на него</li>
+					<li> попал на страницу с детальным описание товара </li>
+					<li> нажал на кнопку “добавить в корзину”</li>
+					<li> Зашел в саму корзину, заполнил адрес доставки</li>
+					<li> оплатил через банковскую карту</li>
 				</ol>
+				{this.state.scene.map((scene, idx) => (
+					<div>
+						<p>Сценарий {`${idx + 1}`} </p>
+						<SingleInput
+							inputType={'text'}
+							name={scene.name}
+							controlFunc={this.handleSceneNameChange(idx)}
+							content={scene.name}
+							placeholder={`Напишите свой сценарий`}
+						/>
+					</div>
+				))}
+				<button type="button" onClick={this.handleAddScene} className="small button_add"><i className="icon icon-plus"></i></button>
+
+				<br />
+				<br />
+				
+				<button
+				className="button_submit button_submit_mod float-left"
+					onClick={this.handleClearForm}>Clear form</button>
+				<input
+					type="submit"
+					className="float-right button_submit"
+					value="Submit" />
 			</form>
 		);
 	}
