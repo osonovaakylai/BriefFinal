@@ -1,18 +1,18 @@
 import React from 'react';
 
-const SingleInput = (props) => (
-	<div className="form-group">
+const SingleInputFeel = (props) => (
+	<div className="form-group form-group-mod">
 		<input
 			className="form-input"
 			name={props.name}
 			type={props.inputType}
 			value={props.content}
 			onChange={props.controlFunc}
-			placeholder={props.placeholder} required />
+			placeholder={props.placeholder}  />
 	</div>
 );
 
-SingleInput.propTypes = {
+SingleInputFeel.propTypes = {
 	inputType: React.PropTypes.oneOf(['text', 'number']).isRequired,
 	name: React.PropTypes.string.isRequired,
 	controlFunc: React.PropTypes.func.isRequired,
@@ -23,4 +23,4 @@ SingleInput.propTypes = {
 	placeholder: React.PropTypes.string,
 };
 
-export default SingleInput;
+export default SingleInputFeel;

@@ -13,9 +13,10 @@ const CheckboxGroup = (props) => (
 							onChange={props.controlFunc}
 							value={option}
 							checked={props.selectedOptions.indexOf(option) > -1}
-							type={props.type} />
+							type={props.type}/>
 							<i className="form-icon"></i>
-							{option}						
+							{option}			
+										
 					</label>
 				);
 			})}
@@ -24,9 +25,9 @@ const CheckboxGroup = (props) => (
 );
 
 CheckboxGroup.propTypes = {
-	title: React.PropTypes.string.isRequired,
+	title: React.PropTypes.string,
 	type: React.PropTypes.oneOf(['checkbox', 'radio']).isRequired,
-	setName: React.PropTypes.string.isRequired,
+	setName: React.PropTypes.string,
 	options: React.PropTypes.array.isRequired,
 	selectedOptions: React.PropTypes.array,
 	controlFunc: React.PropTypes.func.isRequired

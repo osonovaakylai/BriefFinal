@@ -6,15 +6,20 @@
     "react-scripts": "0.6.1"
   },
   "dependencies": {
+    "jquery": "^3.3.1",
     "react": "^15.3.2",
     "react-cookie": "^2.1.4",
     "react-dom": "^15.3.2",
-    "spectre.css": "^0.1.32"
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "spectre.css": "^0.1.32",
+    "uikit": "^3.0.0-beta.40"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "proxy": "http://a69c1309.ngrok.io"
 }
