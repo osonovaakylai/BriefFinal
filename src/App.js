@@ -7,7 +7,7 @@ import './styles.css';
 import './landing.css';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Home from './containers/Home';
-import BriefMobile from './containers/BriefMobile';
+import Brief from './containers/Brief';
 import { Route } from 'react-router-dom';
 import Grid from './components/Grid';
 import logo from './img/logo.png';
@@ -18,7 +18,7 @@ class App extends Component {
       <Router>
         <div>
           <Route exact path="/" component={Home} />
-          <Route path="/brief" component={BriefMobile} />
+          <Route path="/brief" component={Brief} />
           <footer>
             <div className="uk-container uk-container-expand">
               <Grid className="uk-grid uk-grid-match">

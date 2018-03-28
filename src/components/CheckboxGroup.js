@@ -2,7 +2,6 @@ import React from 'react';
 
 const CheckboxGroup = (props) => (
 	<div>
-		
 		<div className="checkbox-group form-group">
 			{props.options.map(option => {
 				return (

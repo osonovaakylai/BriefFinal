@@ -103,7 +103,7 @@ input[type=submit],
     white-space: nowrap;
 }
 .button_submit {
-    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2) !important;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2) !important;
     background: #0d2e3f;
     color: #fff;
     border: none;
@@ -112,14 +112,13 @@ input[type=submit],
     text-transform: uppercase;
     padding: 10px 45px 10px 45px;
     cursor: pointer;
-    display: inline-block;
     outline: none;
     float: right;
 }
 .button_clear {
     background: #a9a9aa;
     margin-top: 20px;
-    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2) !important;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2) !important;
     outline: none;
     color: #fff;
 
@@ -178,7 +177,6 @@ textarea:focus, input:focus {
     
 }
 .right {
-    display: inline-block;
     width: 50%;
     float: right;
 }
@@ -286,6 +284,30 @@ svg:not(:root) {
     /* background: #5764c6; */
     border-color: #c1c1c1;
     outline: none;
+}
+
+.mob_brief {
+    width: 160px !important; 
+}
+.web_brief {
+    width: 177px !important;
+}
+.home_brief {
+    width: 105px !important;
+}
+
+.btn_another_check{
+    background-color: #fff !important;
+    border: none;
+    color: #222;
+    font-weight: 400;
+    cursor: pointer;
+    outline: none;
+    padding-left: 32px;
+    background-repeat: no-repeat;
+    background-position: -5px 1px;
+    display: block;
+    position: relative;
 }
 /* Namba Soft style */
 
