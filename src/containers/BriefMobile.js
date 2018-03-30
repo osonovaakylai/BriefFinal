@@ -13,7 +13,21 @@ import Icon from '../components/Icon';
 import logo from './../img/logo.png';
 import { Link } from "react-router-dom";
 // import BriefSite from './BriefSite';
+import Modal from 'react-modal'
+
 let b;
+
+const customStyles = {
+	content : {
+	  top                   : '50%',
+	  left                  : '50%',
+	  right                 : 'auto',
+	  bottom                : 'auto',
+	  marginRight           : '-50%',
+	  transform             : 'translate(-50%, -50%)'
+	}
+  };
+
 class BriefMobile extends Component {
 	constructor(props) {
 		super(props);
@@ -52,6 +66,7 @@ class BriefMobile extends Component {
 			client: '',
 			mail: '',
 			tel: '',
+			modalIsOpen: false,
 		};
 		this.handleClientChange = this.handleClientChange.bind(this);
 		this.handleMailChange = this.handleMailChange.bind(this);
@@ -70,7 +85,26 @@ class BriefMobile extends Component {
 		this.handleClearForm = this.handleClearForm.bind(this);
 		this.handleSiblingsSelection = this.handleSiblingsSelection.bind(this);
 		this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+
+		this.openModal = this.openModal.bind(this);
+		this.afterOpenModal = this.afterOpenModal.bind(this);
+		this.closeModal = this.closeModal.bind(this);
+
 	}
+
+	openModal() {
+		this.setState({modalIsOpen: true});
+	  }
+	
+	  afterOpenModal() {
+		// references are now sync'd and can be accessed.
+		this.subtitle.style.color = '#f00';
+	  }
+	
+	  closeModal() {
+		this.setState({modalIsOpen: false});
+	  }
+
 	componentDidMount() {
 		fetch('./fake_db.json')
 			.then(res => res.json())
@@ -277,12 +311,11 @@ class BriefMobile extends Component {
 		}).then(res => {
 			console.log(res);
 			if (res.status === 200) {
-				alert('Accepted!');
+				console.log("Accepted!!!");
+				this.setState({modalIsOpen: true});
 			}
-		}).then(res => {
-			console.log(res);
 		})
-		alert("Ex");
+		console.log("Отправляется...");
 		this.handleClearForm(e);
 		// console.log(this.state.styleSelection);
 	}
@@ -845,14 +878,32 @@ class BriefMobile extends Component {
 											className="button_submit"
 											value="Submit" />
 									</div>
-									<br />
-									<br />
+									<Modal
+										isOpen={this.state.modalIsOpen}
+										onAfterOpen={this.afterOpenModal}
+										onRequestClose={this.closeModal}
+										style={customStyles}
+										ariaHideApp={false}
+										contentLabel="Accepted"
+										>
+
+										<button className="modal_close" onClick={this.closeModal}><i className="icon icon-cross"></i></button>
+										<div className="modal_header">
+											<h2 className="title">Namba Soft</h2>
+										</div>
+											<hr/>
+										<div className="modal_content">
+											<p className="title_desc">Ваш запрос отправлен.<br/> Проверьте свою почту в течение нескольких минут.</p>
+										</div>
+										<div className="modal_footer">
+											<button className="modal_ok" onClick={this.closeModal}>OK</button>
+										</div>
+									</Modal>
 								</form>
 							</div>
 						</div>
 					</div>
 				</div>
-
 			</div>
 		);
 	}

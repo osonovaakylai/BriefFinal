@@ -18,7 +18,20 @@ import { Link } from "react-router-dom";
 
 // import {Link} from 'react-router-dom';
 
+import Modal from 'react-modal'
+
 let c;
+
+const customStyles = {
+	content : {
+	  top                   : '50%',
+	  left                  : '50%',
+	  right                 : 'auto',
+	  bottom                : 'auto',
+	  marginRight           : '-50%',
+	  transform             : 'translate(-50%, -50%)'
+	}
+  };
 
 class BriefSite extends Component {
 	constructor(props) {
@@ -63,7 +76,8 @@ class BriefSite extends Component {
 			deadlineAnotherSite: [],
 			clientSite: '',
 			mailSite: '',
-			telSite: ''
+			telSite: '',
+			modalIsOpen: false
 		};
 
 		this.handleLanguageSiteSelections = this.handleLanguageSiteSelections.bind(this);
@@ -89,7 +103,24 @@ class BriefSite extends Component {
 		this.handleImpressionSiteChange = this.handleImpressionSiteChange.bind(this);
 		this.handleactionCallSiteChange = this.handleactionCallSiteChange.bind(this);
 
+		this.openModal = this.openModal.bind(this);
+		this.afterOpenModal = this.afterOpenModal.bind(this);
+		this.closeModal = this.closeModal.bind(this);
+
 	}
+
+	openModal() {
+		this.setState({modalIsOpen: true});
+	  }
+	
+	  afterOpenModal() {
+		// references are now sync'd and can be accessed.
+		this.subtitle.style.color = '#f00';
+	  }
+	
+	  closeModal() {
+		this.setState({modalIsOpen: false});
+	  }
 
 	componentDidMount() {
 		fetch('./fake_db.json')
@@ -345,7 +376,8 @@ class BriefSite extends Component {
 			deadlineAnotherSite: this.state.deadlineAnotherSite,
 			clientSite: this.state.clientSite,
 			mailSite: this.state.mailSite,
-			telSite: this.state.telSite
+			telSite: this.state.telSite,
+			componentAnotherSite: this.state.componentAnotherSite
 		};
 
 		let jsonSite = [];
@@ -360,16 +392,13 @@ class BriefSite extends Component {
 			},
 			body: JSON.stringify(formPayload)
 		}).then(res => {
-			if (res.status === 200) {
-				alert('Accepted!');
-			}
-		}).then(res => {
 			console.log(res);
+			if (res.status === 200) {
+				console.log("Accepted!!!");
+				this.setState({modalIsOpen: true});
+			}
 		})
-		alert("Ex");
-
-
-
+		console.log("Отправляется...");
 		this.handleClearForm(e);
 	}
 
@@ -794,7 +823,7 @@ class BriefSite extends Component {
 									<svg width="15" height="15" className="svg_check">
 										<rect width="15" height="15" className="rect_check" />
 									</svg>Другое
-				</button>
+								</button>
 								{this.state.typeAnotherSite.map((typeAnotherSite, idx) => (
 									<div className="item_form" key={idx}>
 										<span className="input_span">{`${idx + 1}  `}</span>
@@ -820,7 +849,7 @@ class BriefSite extends Component {
 									<svg width="15" height="15" className="svg_check">
 										<rect width="15" height="15" className="rect_check" />
 									</svg>Другое
-				</button>
+								</button>
 								{this.state.chapterAnotherSite.map((chapterAnotherSite, idx) => (
 									<div className="item_form" key={idx}>
 										<span className="input_span">{`${idx + 1}  `}</span>
@@ -877,7 +906,7 @@ class BriefSite extends Component {
 									selectedOptions={this.state.styleSelectionSite} />
 								<button type="button" onClick={this.handleAddstyleAnotherSite} className="small btn_another_radio">
 									<svg height="30" width="30">
-										<circle cx="10" cy="20" r="6.5" stroke="#c1c1c1" strokeWidth="1" fill="#fff" />
+										<circle cx="10" cy="20" r="7.3" stroke="#c1c1c1" strokeWidth="1" fill="#fff" />
 									</svg>Другое
 				</button>
 								{this.state.styleAnotherSite.map((styleAnotherSite, idx) => (
@@ -968,7 +997,7 @@ class BriefSite extends Component {
 									<svg width="15" height="15" className="svg_check">
 										<rect width="15" height="15" className="rect_check" />
 									</svg>Другое
-				</button>
+								</button>
 								{this.state.componentAnotherSite.map((componentAnotherSite, idx) => (
 									<div className="item_form" key={idx}>
 										<span className="input_span">{`${idx + 1}  `}</span>
@@ -1009,7 +1038,7 @@ class BriefSite extends Component {
 									selectedOptions={this.state.deadlineSelectionSite} />
 								<button type="button" onClick={this.handleAdddeadlineAnotherSite} className="small btn_another_radio">
 									<svg height="30" width="30">
-										<circle cx="10" cy="20" r="6.5" stroke="#c1c1c1" strokeWidth="1" fill="#fff" />
+										<circle cx="10" cy="20" r="7.3" stroke="#c1c1c1" strokeWidth="1" fill="#fff" />
 									</svg>Другое
 				</button>
 								{this.state.deadlineAnotherSite.map((deadlineAnotherSite, idx) => (
@@ -1065,6 +1094,22 @@ class BriefSite extends Component {
 									className="button_submit"
 									value="Submit"
 								/>
+								<Modal
+									isOpen={this.state.modalIsOpen}
+									onAfterOpen={this.afterOpenModal}
+									onRequestClose={this.closeModal}
+									style={customStyles}
+									ariaHideApp={false}
+									contentLabel="Accepted"
+									>
+
+									<h2 className="modal_name" ref={subtitle => this.subtitle = subtitle}>Namba Soft</h2>
+									<button className="modal_close" onClick={this.closeModal}><i className="icon icon-cross"></i></button>
+									<div>Ваш запрос отправлен. Проверьте свою почту в течение нескольких минут.</div>
+									<div>
+										<button className="modal_ok" onClick={this.closeModal}>OK</button>
+									</div>
+								</Modal>
 								</form>
 							</div>
 						</div>

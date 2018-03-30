@@ -70,10 +70,9 @@ input[type=submit],
     background-color: #fff !important;
     border: none;
     color: #333;
-    
     cursor: pointer;
     outline: none;
-    padding-left: 25px;
+    padding-left: 33px;
     background-repeat: no-repeat;
     background-position: -5px -1px;
     font-size: 15px;
@@ -236,7 +235,7 @@ svg:not(:root) {
     overflow: hidden;
     position: absolute;
     left: -3px;
-    top: -9px;
+    top: -4px;
 }
 .span_p_name{
     padding: 13.5px 77px 13.5px 0;
@@ -349,3 +348,78 @@ svg:not(:root) {
     width: 200px !important; 
     height: 150px !important;
   }
+
+  .rect_check{
+    fill:rgb(255, 255, 255);
+    stroke-width:1;
+    stroke: #c1c1c1;
+    border-radius: 3px;
+}
+
+.svg_check{
+    top: 6px;
+    left: 0px;
+}
+
+.svg_check:not(:root){
+    left: 0px;
+    top: 6px;
+}
+
+/* Modal window */
+
+.modal_close{
+    background: #fff;
+    border: none;
+    position: absolute;
+    left: 92%;
+    bottom: 90%;
+}
+
+.icon-cross{
+    color: #c5c5c5;
+}
+
+.ReactModal__Overlay{
+    background-color: rgba(13, 46, 63, 0.9) !important;
+}
+
+.ReactModal__Content{
+    width: 517px;
+    height: 365px;
+    padding: 0 !important;
+    border: 0 !important;
+}
+
+.modal_content{
+    padding: 0 45px 45px 45px;
+    margin: 0;
+}
+
+.modal_header{
+    padding: 45px 45px 0 45px;
+    margin: 0;
+}
+
+.modal_footer{
+    background-color: #c1c1c1 !important;
+    padding: 0;
+    height:85px;
+}
+
+.modal_ok{
+    background: #f6cd19;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 10px 45px 10px 45px;
+    cursor: pointer;
+    outline: none;
+    float: right;
+    margin-top: 4%;
+    margin-right: 9%;
+    margin-bottom: 4%;
+    border-radius: 3px;
+}
