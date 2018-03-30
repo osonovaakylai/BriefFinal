@@ -9,10 +9,8 @@ import TextArea from '../components/TextArea';
 import SingleInputData from '../components/SingleInputData';
 import NavBar from '../components/NavBar';
 import Dropdown from '../components/Dropdown';
-import Icon from '../components/Icon';
 import logo from './../img/logo.png';
 import { Link } from "react-router-dom";
-// import BriefSite from './BriefSite';
 import Modal from 'react-modal'
 
 let b;
@@ -85,7 +83,6 @@ class BriefMobile extends Component {
 		this.handleClearForm = this.handleClearForm.bind(this);
 		this.handleSiblingsSelection = this.handleSiblingsSelection.bind(this);
 		this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-
 		this.openModal = this.openModal.bind(this);
 		this.afterOpenModal = this.afterOpenModal.bind(this);
 		this.closeModal = this.closeModal.bind(this);
@@ -97,7 +94,6 @@ class BriefMobile extends Component {
 	  }
 	
 	  afterOpenModal() {
-		// references are now sync'd and can be accessed.
 		this.subtitle.style.color = '#f00';
 	  }
 	
@@ -290,15 +286,12 @@ class BriefMobile extends Component {
 			auditoria: this.state.auditoria,
 			geography: this.state.geography,
 			shareholders: this.state.shareholders,
-			// styleAnother: this.state.styleAnother,
-			//deadlineAnother: this.state.deadlineAnother,
 			siblingSelection: this.state.siblingSelection,
 			description: this.state.description,
 			client: this.state.client,
 			mail: this.state.mail,
 			tel: this.state.tel
 		};
-		// console.log(this.state.styleSelection);
 		let myjson = JSON.stringify(formPayload);
 		console.log(myjson);
 		fetch('/api/web', {
@@ -317,7 +310,6 @@ class BriefMobile extends Component {
 		})
 		console.log("Отправляется...");
 		this.handleClearForm(e);
-		// console.log(this.state.styleSelection);
 	}
 	handleSceneNameChange = (idx) => (evt) => {
 		const newScene = this.state.scene.map((scene, sidx) => {
@@ -818,9 +810,7 @@ class BriefMobile extends Component {
 											<circle cx="10" cy="20" r="6.5" stroke="#c1c1c1" strokeWidth="1" fill="#fff" />
 										</svg>Другое
 					</button>
-
 									<br />
-
 									{this.state.deadlineAnother.map((deadlineAnother, idx) => (
 										<div className="item_form" key={idx}>
 											<SingleInputAnother
@@ -830,7 +820,6 @@ class BriefMobile extends Component {
 												content={deadlineAnother.name}
 												placeholder={''}
 											/>
-
 										</div>
 									))}
 									<h5 className="clearfix form_title">Пользовательский сценарий</h5>
@@ -882,7 +871,6 @@ class BriefMobile extends Component {
 										ariaHideApp={false}
 										contentLabel="Accepted"
 										>
-
 										<button className="modal_close" onClick={this.closeModal}><i className="icon icon-cross"></i></button>
 										<div className="modal_header">
 											<h2 className="title">Namba Soft</h2>

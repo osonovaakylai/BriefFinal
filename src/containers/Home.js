@@ -351,7 +351,6 @@ class HomePage extends Component {
                         </form>
                     </div>
                 </section>
-
             </div>
         )
     }

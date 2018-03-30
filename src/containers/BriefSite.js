@@ -10,28 +10,20 @@ import Dropdown from '../components/Dropdown';
 import Icon from '../components/Icon';
 import logo from './../img/logo.png';
 import { Link } from "react-router-dom";
-// import logo from './../img/logo.png';
-
-// import NavBar from '../components/NavBar';
-// import Dropdown from '../components/Dropdown';
-// // import Icon from '../components/Icon';
-
-// import {Link} from 'react-router-dom';
-
 import Modal from 'react-modal'
 
 let c;
 
 const customStyles = {
-	content : {
-	  top                   : '50%',
-	  left                  : '50%',
-	  right                 : 'auto',
-	  bottom                : 'auto',
-	  marginRight           : '-50%',
-	  transform             : 'translate(-50%, -50%)'
+	content: {
+		top: '50%',
+		left: '50%',
+		right: 'auto',
+		bottom: 'auto',
+		marginRight: '-50%',
+		transform: 'translate(-50%, -50%)'
 	}
-  };
+};
 
 class BriefSite extends Component {
 	constructor(props) {
@@ -102,31 +94,27 @@ class BriefSite extends Component {
 		this.handleChaptersSiteSelection = this.handleChaptersSiteSelection.bind(this);
 		this.handleImpressionSiteChange = this.handleImpressionSiteChange.bind(this);
 		this.handleactionCallSiteChange = this.handleactionCallSiteChange.bind(this);
-
 		this.openModal = this.openModal.bind(this);
 		this.afterOpenModal = this.afterOpenModal.bind(this);
 		this.closeModal = this.closeModal.bind(this);
-
 	}
 
 	openModal() {
-		this.setState({modalIsOpen: true});
-	  }
-	
-	  afterOpenModal() {
-		// references are now sync'd and can be accessed.
+		this.setState({ modalIsOpen: true });
+	}
+
+	afterOpenModal() {
 		this.subtitle.style.color = '#f00';
-	  }
-	
-	  closeModal() {
-		this.setState({modalIsOpen: false});
-	  }
+	}
+
+	closeModal() {
+		this.setState({ modalIsOpen: false });
+	}
 
 	componentDidMount() {
 		fetch('./fake_db.json')
 			.then(res => res.json())
 			.then(data => {
-
 				let selectedChapterSite = JSON.parse(localStorage.getItem('selectedChapterSite'));
 				let selectedTypeSite = JSON.parse(localStorage.getItem('selectedTypeSite'));
 				let selectedComponentSite = JSON.parse(localStorage.getItem('selectedComponentSite'));
@@ -281,7 +269,7 @@ class BriefSite extends Component {
 	}
 
 	handleSeeSiteChange(e) {
-		this.setState({ seeSite: e.target.value }, () => { localStorage.setItem('seeSite', this.state.seeSite)});
+		this.setState({ seeSite: e.target.value }, () => { localStorage.setItem('seeSite', this.state.seeSite) });
 	}
 	handleDoneSiteChange(e) {
 		this.setState({ doneSite: e.target.value }, () => { localStorage.setItem('doneSite', this.state.doneSite) });
@@ -341,9 +329,6 @@ class BriefSite extends Component {
 	}
 	handleFormSubmit(e) {
 		e.preventDefault();
-
-
-
 		const formPayload = {
 			selectedLanguageSite: this.state.selectedLanguageSite,
 			styleSelectionSite: this.state.styleSelectionSite,
@@ -383,7 +368,6 @@ class BriefSite extends Component {
 		let jsonSite = [];
 		jsonSite = JSON.stringify(formPayload);
 		console.log(jsonSite);
-
 		fetch('/api/web', {
 			method: "POST",
 			headers: {
@@ -395,7 +379,7 @@ class BriefSite extends Component {
 			console.log(res);
 			if (res.status === 200) {
 				console.log("Accepted!!!");
-				this.setState({modalIsOpen: true});
+				this.setState({ modalIsOpen: true });
 			}
 		})
 		console.log("Отправляется...");
@@ -448,7 +432,7 @@ class BriefSite extends Component {
 		});
 
 		this.setState({ shareholdersSite: newShareholders }, () => {
-			let a = { shareholdersSite: this.state.shareholdersSite}
+			let a = { shareholdersSite: this.state.shareholdersSite }
 			c = JSON.stringify(a);
 			localStorage.setItem('shareholdersSite', c)
 		});
@@ -460,8 +444,6 @@ class BriefSite extends Component {
 	handleRemoveShareholderSite = (idx) => () => {
 		this.setState({ shareholdersSite: this.state.shareholdersSite.filter((s, sidx) => idx !== sidx) });
 	}
-
-
 	handleStyleAnotherSiteNameChange = (idx) => (evt) => {
 		const newShareholders = this.state.styleAnotherSite.map((styleAnotherSite, sidx) => {
 			if (idx !== sidx) return styleAnotherSite;
@@ -518,7 +500,7 @@ class BriefSite extends Component {
 		});
 
 		this.setState({ typeAnotherSite: newShareholders }, () => {
-			let a = { typeAnotherSite: this.state.typeAnotherSite}
+			let a = { typeAnotherSite: this.state.typeAnotherSite }
 			c = JSON.stringify(a);
 			localStorage.setItem('typeAnotherSite', c)
 		});
@@ -623,9 +605,6 @@ class BriefSite extends Component {
 	handleRemoveSceneSite = (idx) => () => {
 		this.setState({ sceneSite: this.state.sceneSite.filter((s, sidx) => idx !== sidx) });
 	}
-
-
-
 	handleGeographySiteNameChange = (idx) => (evt) => {
 		const newGeography = this.state.geographySite.map((geographySite, sidx) => {
 			if (idx !== sidx) return geographySite;
@@ -649,469 +628,449 @@ class BriefSite extends Component {
 	render() {
 		return (
 			<div>
-			<header>
-               <div className="uk-container uk-container-expand">
-                  <NavBar className="uk-navbar-container uk-visible@m">
-                     <div className="uk-navbar-left">
-                        <ul className="uk-navbar-nav">
-                           <li className="first"><Link to="/"><img src={logo} alt="" /></Link></li>
-                        </ul>
-                     </div>
-                     <div className="uk-navbar-right">
-                        <ul className="uk-navbar-nav">
-                           <li className="uk-margin-right"><Link to="/" className="home_brief">Home</Link></li>
-                           <li className="uk-margin-right"><Link to="/brief" className="mob_brief">Mobile brief</Link></li>
-                           <li className="uk-margin-right"><Link to="/brief-web" className="web_brief">Website brief</Link></li>
-                        </ul>
-                        <a href="#" className="translate-button" rel="ru">RU</a><span className="slash"> | </span><a href="#" className="translate-button" rel="en">EN</a>
-                     </div>
-                  </NavBar>
-                  <div className="mobile-version uk-hidden@m">
-                     <div className="boundary-align">
-                        <Icon className="uk-button uk-button-default" type="button"></Icon>
-                        <Dropdown className="uk-margin-remove" offset={'5'} mode={'click'}>
-						   <ul className="uk-nav uk-dropdown-nav">
-						   <li className="uk-margin-right"><Link to="/" className="home_brief">Home</Link></li>
-						   <li className="uk-nav-divider"></li>
-                           <li className="uk-margin-right"><Link to="/brief" className="mob_brief">Mobile brief</Link></li>
-						   <li className="uk-nav-divider"></li>
-                           <li className="uk-margin-right"><Link to="/brief-web" className="web_brief">Website brief</Link></li>
-                           </ul>
-                        </Dropdown>
-                     </div>
-                  </div>
-               </div>
-            </header>
+				<header>
+					<div className="uk-container uk-container-expand">
+						<NavBar className="uk-navbar-container uk-visible@m">
+							<div className="uk-navbar-left">
+								<ul className="uk-navbar-nav">
+									<li className="first"><Link to="/"><img src={logo} alt="" /></Link></li>
+								</ul>
+							</div>
+							<div className="uk-navbar-right">
+								<ul className="uk-navbar-nav">
+									<li className="uk-margin-right"><Link to="/" className="home_brief">Home</Link></li>
+									<li className="uk-margin-right"><Link to="/brief" className="mob_brief">Mobile brief</Link></li>
+									<li className="uk-margin-right"><Link to="/brief-web" className="web_brief">Website brief</Link></li>
+								</ul>
+								<a href="#" className="translate-button" rel="ru">RU</a><span className="slash"> | </span><a href="#" className="translate-button" rel="en">EN</a>
+							</div>
+						</NavBar>
+						<div className="mobile-version uk-hidden@m">
+							<div className="boundary-align">
+								<Icon className="uk-button uk-button-default" type="button"></Icon>
+								<Dropdown className="uk-margin-remove" offset={'5'} mode={'click'}>
+									<ul className="uk-nav uk-dropdown-nav">
+										<li className="uk-margin-right"><Link to="/" className="home_brief">Home</Link></li>
+										<li className="uk-nav-divider"></li>
+										<li className="uk-margin-right"><Link to="/brief" className="mob_brief">Mobile brief</Link></li>
+										<li className="uk-nav-divider"></li>
+										<li className="uk-margin-right"><Link to="/brief-web" className="web_brief">Website brief</Link></li>
+									</ul>
+								</Dropdown>
+							</div>
+						</div>
+					</div>
+				</header>
 				<div className="container">
 					<div className="columns">
 						<div className="col-lg-9 col-md-12 centered cont">
 							<div className="brief">
 								<form className="container brief_form" onSubmit={this.handleFormSubmit}>
-									
-								<h1 className="title">Бриф на разработку сайта</h1>
-								<p className="title_desc">Пожалуйста, заполните бриф максимально подробно. Это позволит нам определить конкретные сроки и стоимость разработки.</p>
-								<p className="title_text">Распечатайте и заполните бриф. Срок оценки брифа 2-3 рабочих дня.</p>
-								<hr className="hr_style" />
-								<h5 className="title_desc">Ваши данные:</h5>
-								<p className="span_p span_p_name">Имя:</p>
-								<SingleInputData
-									inputType={'text'}
-									title={''}
-									name={'clientSite'}
-									controlFunc={this.handleClientSiteChange}
-									content={this.state.clientSite}
-									placeholder={''} />
-								<p className="span_p span_p_do text-left">E-mail:</p>
-								<SingleInputData
-									inputType={'text'}
-									title={''}
-									name={'mailSite'}
-									controlFunc={this.handleMailSiteChange}
-									content={this.state.mailSite}
-									placeholder={''} />
-								<p className="span_p span_p_tel">Телефон:</p>
-								<SingleInputData
-									inputType={'text'}
-									title={''}
-									name={'telSite'}
-									controlFunc={this.handleTelSiteChange}
-									content={this.state.telSite}
-									placeholder={''} />
-								<h5 className="title_desc">Сфера деятельности компании:</h5>
-								<TextArea
-									title={''}
-									rows={5}
-									resize={false}
-									content={this.state.descriptionSite}
-									name={'textarea_activity'}
-									controlFunc={this.handleDescriptionSiteChange}
-									placeholder={''} />
 
-								<h5 className="title_desc">Характеристики основных услуг:</h5>
-								{this.state.shareholdersSite.map((shareholderSite, idx) => (
-									<div className="item_form" key={idx}>
-										<span className="input_span">{`${idx + 1}  `}</span>
-										<SingleInput
-											inputType={'text'}
-											name={shareholderSite.name}
-											controlFunc={this.handleShareholderSiteNameChange(idx)}
-											content={shareholderSite.name}
-											placeholder={``}
-										/>
-										<button type="button" onClick={this.handleRemoveShareholderSite(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
-									</div>
-								))}
-								<button type="button" onClick={this.handleAddShareholderSite} className="small button_add"><i className="icon icon-plus"></i></button>
+									<h1 className="title">Бриф на разработку сайта</h1>
+									<p className="title_desc">Пожалуйста, заполните бриф максимально подробно. Это позволит нам определить конкретные сроки и стоимость разработки.</p>
+									<p className="title_text">Распечатайте и заполните бриф. Срок оценки брифа 2-3 рабочих дня.</p>
+									<hr className="hr_style" />
+									<h5 className="title_desc">Ваши данные:</h5>
+									<p className="span_p span_p_name">Имя:</p>
+									<SingleInputData
+										inputType={'text'}
+										title={''}
+										name={'clientSite'}
+										controlFunc={this.handleClientSiteChange}
+										content={this.state.clientSite}
+										placeholder={''} />
+									<p className="span_p span_p_do text-left">E-mail:</p>
+									<SingleInputData
+										inputType={'text'}
+										title={''}
+										name={'mailSite'}
+										controlFunc={this.handleMailSiteChange}
+										content={this.state.mailSite}
+										placeholder={''} />
+									<p className="span_p span_p_tel">Телефон:</p>
+									<SingleInputData
+										inputType={'text'}
+										title={''}
+										name={'telSite'}
+										controlFunc={this.handleTelSiteChange}
+										content={this.state.telSite}
+										placeholder={''} />
+									<h5 className="title_desc">Сфера деятельности компании:</h5>
+									<TextArea
+										title={''}
+										rows={5}
+										resize={false}
+										content={this.state.descriptionSite}
+										name={'textarea_activity'}
+										controlFunc={this.handleDescriptionSiteChange}
+										placeholder={''} />
 
-								<h5 className="title_desc">География реализация товаров, услуг:</h5>
-								{this.state.geographySite.map((geographySite, idx) => (
-									<div className="item_form" key={idx}>
-										<span className="input_span">{`${idx + 1}  `}</span>
-										<SingleInput
-											inputType={'text'}
-											name={geographySite.name}
-											controlFunc={this.handleGeographySiteNameChange(idx)}
-											content={geographySite.name}
-											placeholder={``}
-										/>
-										<button type="button" onClick={this.handleRemoveGeographySite(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
-									</div>
-								))}
-								<button type="button" onClick={this.handleAddGeographySite} className="small button_add"><i className="icon icon-plus"></i></button>
+									<h5 className="title_desc">Характеристики основных услуг:</h5>
+									{this.state.shareholdersSite.map((shareholderSite, idx) => (
+										<div className="item_form" key={idx}>
+											<span className="input_span">{`${idx + 1}  `}</span>
+											<SingleInput
+												inputType={'text'}
+												name={shareholderSite.name}
+												controlFunc={this.handleShareholderSiteNameChange(idx)}
+												content={shareholderSite.name}
+												placeholder={``}
+											/>
+											<button type="button" onClick={this.handleRemoveShareholderSite(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
+										</div>
+									))}
+									<button type="button" onClick={this.handleAddShareholderSite} className="small button_add"><i className="icon icon-plus"></i></button>
 
-								<h5 className="title_desc">Кто является основным потребителем (целевая аудитория сайта):</h5>
-								{this.state.auditoriaSite.map((auditoriaSite, idx) => (
-									<div className="item_form" key={idx}>
-										<span className="input_span">{`${idx + 1}  `}</span>
-										<SingleInput
-											inputType={'text'}
-											name={auditoriaSite.name}
-											controlFunc={this.handleAuditoriaSiteNameChange(idx)}
-											content={auditoriaSite.name}
-											placeholder={``}
-										/>
-										<button type="button" onClick={this.handleRemoveAuditoriaSite(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
-									</div>
-								))}
-								<button type="button" onClick={this.handleAddAuditoriaSite} className="small button_add"><i className="icon icon-plus"></i></button>
+									<h5 className="title_desc">География реализация товаров, услуг:</h5>
+									{this.state.geographySite.map((geographySite, idx) => (
+										<div className="item_form" key={idx}>
+											<span className="input_span">{`${idx + 1}  `}</span>
+											<SingleInput
+												inputType={'text'}
+												name={geographySite.name}
+												controlFunc={this.handleGeographySiteNameChange(idx)}
+												content={geographySite.name}
+												placeholder={``}
+											/>
+											<button type="button" onClick={this.handleRemoveGeographySite(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
+										</div>
+									))}
+									<button type="button" onClick={this.handleAddGeographySite} className="small button_add"><i className="icon icon-plus"></i></button>
 
-								<h5 className="title_desc">Конкуренты, их веб-ресурсы:</h5>
-								{this.state.konkurentiSite.map((konkurentiSite, idx) => (
-									<div className="item_form" key={idx}>
-										<span className="input_span">{`${idx + 1}  `}</span>
-										<SingleInput
-											inputType={'text'}
-											name={konkurentiSite.name}
-											controlFunc={this.handleKonkurentiSiteNameChange(idx)}
-											content={konkurentiSite.name}
-											placeholder={`Название и url:  `}
-										/>
-										<button type="button" onClick={this.handleRemoveKonkurentiSite(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
-									</div>
-								))}
-								<button type="button" onClick={this.handleAddKonkurentiSite} className="small button_add"><i className="icon icon-plus"></i></button>
+									<h5 className="title_desc">Кто является основным потребителем (целевая аудитория сайта):</h5>
+									{this.state.auditoriaSite.map((auditoriaSite, idx) => (
+										<div className="item_form" key={idx}>
+											<span className="input_span">{`${idx + 1}  `}</span>
+											<SingleInput
+												inputType={'text'}
+												name={auditoriaSite.name}
+												controlFunc={this.handleAuditoriaSiteNameChange(idx)}
+												content={auditoriaSite.name}
+												placeholder={``}
+											/>
+											<button type="button" onClick={this.handleRemoveAuditoriaSite(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
+										</div>
+									))}
+									<button type="button" onClick={this.handleAddAuditoriaSite} className="small button_add"><i className="icon icon-plus"></i></button>
 
-								<h5 className="title_desc">Задачи, которые должен решать сайт:</h5>
-								{this.state.taskSite.map((taskSite, idx) => (
-									<div className="item_form" key={idx}>
-										<span className="input_span">{`${idx + 1}  `}</span>
-										<SingleInput
-											inputType={'text'}
-											name={taskSite.name}
-											controlFunc={this.handleTaskSiteNameChange(idx)}
-											content={taskSite.name}
-											placeholder={``}
-										/>
-										<button type="button" onClick={this.handleRemoveTaskSite(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
-									</div>
-								))}
-								<button type="button" onClick={this.handleAddTaskSite} className="small button_add"><i className="icon icon-plus"></i></button>
+									<h5 className="title_desc">Конкуренты, их веб-ресурсы:</h5>
+									{this.state.konkurentiSite.map((konkurentiSite, idx) => (
+										<div className="item_form" key={idx}>
+											<span className="input_span">{`${idx + 1}  `}</span>
+											<SingleInput
+												inputType={'text'}
+												name={konkurentiSite.name}
+												controlFunc={this.handleKonkurentiSiteNameChange(idx)}
+												content={konkurentiSite.name}
+												placeholder={`Название и url:  `}
+											/>
+											<button type="button" onClick={this.handleRemoveKonkurentiSite(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
+										</div>
+									))}
+									<button type="button" onClick={this.handleAddKonkurentiSite} className="small button_add"><i className="icon icon-plus"></i></button>
 
-								<h5 className="title_desc">Тип сайта:</h5>
-								<CheckboxGroup
-									setName={'selectedTypeSite'}
-									type={'checkbox'}
-									controlFunc={this.handleTypeSiteSelections}
-									options={this.state.typeSelectionsSite}
-									selectedOptions={this.state.selectedTypeSite} />
+									<h5 className="title_desc">Задачи, которые должен решать сайт:</h5>
+									{this.state.taskSite.map((taskSite, idx) => (
+										<div className="item_form" key={idx}>
+											<span className="input_span">{`${idx + 1}  `}</span>
+											<SingleInput
+												inputType={'text'}
+												name={taskSite.name}
+												controlFunc={this.handleTaskSiteNameChange(idx)}
+												content={taskSite.name}
+												placeholder={``}
+											/>
+											<button type="button" onClick={this.handleRemoveTaskSite(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
+										</div>
+									))}
+									<button type="button" onClick={this.handleAddTaskSite} className="small button_add"><i className="icon icon-plus"></i></button>
 
-								<button type="button" onClick={this.handleAddTypeAnotherSite} className="btn_another_check">
-									<svg width="15" height="15" className="svg_check">
-										<rect width="15" height="15" className="rect_check" />
-									</svg>Другое
+									<h5 className="title_desc">Тип сайта:</h5>
+									<CheckboxGroup
+										setName={'selectedTypeSite'}
+										type={'checkbox'}
+										controlFunc={this.handleTypeSiteSelections}
+										options={this.state.typeSelectionsSite}
+										selectedOptions={this.state.selectedTypeSite} />
+
+									<button type="button" onClick={this.handleAddTypeAnotherSite} className="btn_another_check">
+										<svg width="15" height="15" className="svg_check">
+											<rect width="15" height="15" className="rect_check" />
+										</svg>Другое
 								</button>
-								{this.state.typeAnotherSite.map((typeAnotherSite, idx) => (
-									<div className="item_form" key={idx}>
-										<span className="input_span">{`${idx + 1}  `}</span>
-										<SingleInput
-											inputType={'text'}
-											name={typeAnotherSite.name}
-											controlFunc={this.handleTypeAnotherSiteNameChange(idx)}
-											content={typeAnotherSite.name}
-											placeholder={''}
-										/>
+									{this.state.typeAnotherSite.map((typeAnotherSite, idx) => (
+										<div className="item_form" key={idx}>
+											<span className="input_span">{`${idx + 1}  `}</span>
+											<SingleInput
+												inputType={'text'}
+												name={typeAnotherSite.name}
+												controlFunc={this.handleTypeAnotherSiteNameChange(idx)}
+												content={typeAnotherSite.name}
+												placeholder={''}
+											/>
 
-									</div>
-								))}
-
-								<h5 className="title_desc">Основные разделы сайта (описать точную структуру разделов сайта):</h5>
-								<CheckboxGroup
-									setName={'selectedChapterSite'}
-									type={'checkbox'}
-									controlFunc={this.handleChapterSiteSelections}
-									options={this.state.chapterSelectionsSite}
-									selectedOptions={this.state.selectedChapterSite} />
-								<button type="button" onClick={this.handleAddChapterAnotherSite} className="btn_another_check">
-									<svg width="15" height="15" className="svg_check">
-										<rect width="15" height="15" className="rect_check" />
-									</svg>Другое
+										</div>
+									))}
+									<h5 className="title_desc">Основные разделы сайта (описать точную структуру разделов сайта):</h5>
+									<CheckboxGroup
+										setName={'selectedChapterSite'}
+										type={'checkbox'}
+										controlFunc={this.handleChapterSiteSelections}
+										options={this.state.chapterSelectionsSite}
+										selectedOptions={this.state.selectedChapterSite} />
+									<button type="button" onClick={this.handleAddChapterAnotherSite} className="btn_another_check">
+										<svg width="15" height="15" className="svg_check">
+											<rect width="15" height="15" className="rect_check" />
+										</svg>Другое
 								</button>
-								{this.state.chapterAnotherSite.map((chapterAnotherSite, idx) => (
-									<div className="item_form" key={idx}>
-										<span className="input_span">{`${idx + 1}  `}</span>
-										<SingleInput
-											inputType={'text'}
-											name={chapterAnotherSite.name}
-											controlFunc={this.handleChapterAnotherSiteNameChange(idx)}
-											content={chapterAnotherSite.name}
-											placeholder={''}
-										/>
+									{this.state.chapterAnotherSite.map((chapterAnotherSite, idx) => (
+										<div className="item_form" key={idx}>
+											<span className="input_span">{`${idx + 1}  `}</span>
+											<SingleInput
+												inputType={'text'}
+												name={chapterAnotherSite.name}
+												controlFunc={this.handleChapterAnotherSiteNameChange(idx)}
+												content={chapterAnotherSite.name}
+												placeholder={''}
+											/>
 
-									</div>
-								))}
-
-
-								<h5 className="title_desc">Частота предполагаемых обновлений сайта:</h5>
-								<CheckboxOrRadioGroup
-									setName={'siblingsSite'}
-									controlFunc={this.handleSiblingsSiteSelection}
-									type={'radio'}
-									options={this.state.siblingOptionsSite}
-									selectedOptions={this.state.siblingSelectionSite} />
-								<h5 className="title_desc">Языковые версии сайта:</h5>
-								<CheckboxGroup
-									setName={'selectedLanguageSite'}
-									type={'checkbox'}
-									controlFunc={this.handleLanguageSiteSelections}
-									options={this.state.languageSelectionsSite}
-									selectedOptions={this.state.selectedLanguageSite} />
-
-								<h5 className="title_desc">Контент сайта</h5>
-								<p>(На примере сайта для публикации новостей. На сайте будут новости, которые будут состоять из заголовка и описания)</p>
-								{this.state.contentSite.map((contentSite, idx) => (
-									<div className="item_form" key={idx}>
-										<span className="input_span">{`${idx + 1}  `}</span>
-										<SingleInput
-											inputType={'text'}
-											name={contentSite.name}
-											controlFunc={this.handleContentSiteNameChange(idx)}
-											content={contentSite.name}
-											placeholder={``}
-										/>
-										<button type="button" onClick={this.handleRemoveContentSite(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
-									</div>
-								))}
-								<button type="button" onClick={this.handleAddContentSite} className="small button_add"><i className="icon icon-plus"></i></button>
-
-								<h5 className="title_desc">Стиль сайта:</h5>
-								<CheckboxOrRadioGroup
-									setName={'styleSite'}
-									controlFunc={this.handleStyleSiteSelection}
-									type={'radio'}
-									options={this.state.styleOptionsSite}
-									selectedOptions={this.state.styleSelectionSite} />
-								<button type="button" onClick={this.handleAddstyleAnotherSite} className="small btn_another_radio">
-									<svg height="30" width="30">
-										<circle cx="10" cy="20" r="7.3" stroke="#c1c1c1" strokeWidth="1" fill="#fff" />
-									</svg>Другое
+										</div>
+									))}
+									<h5 className="title_desc">Частота предполагаемых обновлений сайта:</h5>
+									<CheckboxOrRadioGroup
+										setName={'siblingsSite'}
+										controlFunc={this.handleSiblingsSiteSelection}
+										type={'radio'}
+										options={this.state.siblingOptionsSite}
+										selectedOptions={this.state.siblingSelectionSite} />
+									<h5 className="title_desc">Языковые версии сайта:</h5>
+									<CheckboxGroup
+										setName={'selectedLanguageSite'}
+										type={'checkbox'}
+										controlFunc={this.handleLanguageSiteSelections}
+										options={this.state.languageSelectionsSite}
+										selectedOptions={this.state.selectedLanguageSite} />
+									<h5 className="title_desc">Контент сайта</h5>
+									<p>(На примере сайта для публикации новостей. На сайте будут новости, которые будут состоять из заголовка и описания)</p>
+									{this.state.contentSite.map((contentSite, idx) => (
+										<div className="item_form" key={idx}>
+											<span className="input_span">{`${idx + 1}  `}</span>
+											<SingleInput
+												inputType={'text'}
+												name={contentSite.name}
+												controlFunc={this.handleContentSiteNameChange(idx)}
+												content={contentSite.name}
+												placeholder={``}
+											/>
+											<button type="button" onClick={this.handleRemoveContentSite(idx)} className="small button_minus"><i className="icon icon-minus"></i></button>
+										</div>
+									))}
+									<button type="button" onClick={this.handleAddContentSite} className="small button_add"><i className="icon icon-plus"></i></button>
+									<h5 className="title_desc">Стиль сайта:</h5>
+									<CheckboxOrRadioGroup
+										setName={'styleSite'}
+										controlFunc={this.handleStyleSiteSelection}
+										type={'radio'}
+										options={this.state.styleOptionsSite}
+										selectedOptions={this.state.styleSelectionSite} />
+									<button type="button" onClick={this.handleAddstyleAnotherSite} className="small btn_another_radio">
+										<svg height="30" width="30">
+											<circle cx="10" cy="20" r="7.3" stroke="#c1c1c1" strokeWidth="1" fill="#fff" />
+										</svg>Другое
 				</button>
-								{this.state.styleAnotherSite.map((styleAnotherSite, idx) => (
-									<div className="item_form" key={idx}>
-										<span className="input_span">{`${idx + 1}  `}</span>
-										<SingleInput
-											inputType={'text'}
-											name={styleAnotherSite.name}
-											controlFunc={this.handleStyleAnotherSiteNameChange(idx)}
-											content={styleAnotherSite.name}
-											placeholder={''}
-										/>
+									{this.state.styleAnotherSite.map((styleAnotherSite, idx) => (
+										<div className="item_form" key={idx}>
+											<span className="input_span">{`${idx + 1}  `}</span>
+											<SingleInput
+												inputType={'text'}
+												name={styleAnotherSite.name}
+												controlFunc={this.handleStyleAnotherSiteNameChange(idx)}
+												content={styleAnotherSite.name}
+												placeholder={''}
+											/>
 
-									</div>
-								))}
+										</div>
+									))}
+									<h5 className="title_desc">Впечатление, которое должен произвести сайт на пользователя:</h5>
+									<TextArea
+										title={''}
+										rows={5}
+										resize={false}
+										content={this.state.impressionSite}
+										name={'impressionSite'}
+										controlFunc={this.handleImpressionSiteChange}
+										placeholder={''} />
+									<h5 className="title_desc">Какое основное сообщение необходимо довести до сознания потребителя (призыв к действию):</h5>
+									<TextArea
+										title={''}
+										rows={5}
+										resize={false}
+										content={this.state.actionCallSite}
+										name={'actionCallSite'}
+										controlFunc={this.handleactionCallSiteChange}
+										placeholder={''} />
+									<h5 className="title_desc">Что вы хотите, чтобы пользователь в результате посещения сайта</h5>
+									<p className="span_p span_p_see">Увидел:</p>
+									<SingleInputFeel
+										inputType={'text'}
+										title={''}
+										name={'seeSite'}
+										controlFunc={this.handleSeeSiteChange}
+										content={this.state.seeSite}
+										placeholder={''} />
+									<p className="span_p span_p_do text-left">Сделал:</p>
+									<SingleInputFeel
+										inputType={'text'}
+										title={''}
+										name={'doneSite'}
+										controlFunc={this.handleDoneSiteChange}
+										content={this.state.doneSite}
+										placeholder={''} />
+									<p className="span_p">Почувствовал:</p>
+									<SingleInputFeel
+										inputType={'text'}
+										title={''}
+										name={'feelSite'}
+										controlFunc={this.handleFeelSiteChange}
+										content={this.state.feelSite}
+										placeholder={''} />
 
-								<h5 className="title_desc">Впечатление, которое должен произвести сайт на пользователя:</h5>
-								<TextArea
-									title={''}
-									rows={5}
-									resize={false}
-									content={this.state.impressionSite}
-									name={'impressionSite'}
-									controlFunc={this.handleImpressionSiteChange}
-									placeholder={''} />
-
-								<h5 className="title_desc">Какое основное сообщение необходимо довести до сознания потребителя (призыв к действию):</h5>
-								<TextArea
-									title={''}
-									rows={5}
-									resize={false}
-									content={this.state.actionCallSite}
-									name={'actionCallSite'}
-									controlFunc={this.handleactionCallSiteChange}
-									placeholder={''} />
-
-								<h5 className="title_desc">Что вы хотите, чтобы пользователь в результате посещения сайта</h5>
-								<p className="span_p span_p_see">Увидел:</p>
-								<SingleInputFeel
-									inputType={'text'}
-									title={''}
-									name={'seeSite'}
-									controlFunc={this.handleSeeSiteChange}
-									content={this.state.seeSite}
-									placeholder={''} />
-								<p className="span_p span_p_do text-left">Сделал:</p>
-								<SingleInputFeel
-									inputType={'text'}
-									title={''}
-									name={'doneSite'}
-									controlFunc={this.handleDoneSiteChange}
-									content={this.state.doneSite}
-									placeholder={''} />
-								<p className="span_p">Почувствовал:</p>
-								<SingleInputFeel
-									inputType={'text'}
-									title={''}
-									name={'feelSite'}
-									controlFunc={this.handleFeelSiteChange}
-									content={this.state.feelSite}
-									placeholder={''} />
-
-								<h5 className="title_desc">Цветовая гамма</h5>
-								<p className="title_text">(Не нужно заполнять, если есть брендбук)</p>
-								{this.state.colorSite.map((colorSite, idx) => (
-									<div className="item_form" key={idx}>
-										<span className="input_span">{`${idx + 1}  `}</span>
-										<SingleInput
-											inputType={'text'}
-											name={colorSite.name}
-											controlFunc={this.handleColorSiteNameChange(idx)}
-											content={colorSite.name}
-											placeholder={``}
-										/>
-										<button type="button" onClick={this.handleRemoveColorSite(idx)} className="button_minus"><i className="icon icon-minus"></i></button>
-									</div>
-								))}
-								<button type="button" onClick={this.handleAddColorSite} className="button_add"><i className="icon icon-plus"></i></button>
-
-								<h5 className="title_desc">Компоненты сайта:</h5>
-								<CheckboxGroup
-									setName={'selectedComponentSite'}
-									controlFunc={this.handleComponentSiteSelections}
-									type={'checkbox'}
-									selectedOptions={this.state.selectedComponentSite}
-									options={this.state.componentSelectionsSite} />
-								<button type="button" onClick={this.handleAddComponentAnotherSite} className="btn_another_check">
-									<svg width="15" height="15" className="svg_check">
-										<rect width="15" height="15" className="rect_check" />
-									</svg>Другое
+									<h5 className="title_desc">Цветовая гамма</h5>
+									<p className="title_text">(Не нужно заполнять, если есть брендбук)</p>
+									{this.state.colorSite.map((colorSite, idx) => (
+										<div className="item_form" key={idx}>
+											<span className="input_span">{`${idx + 1}  `}</span>
+											<SingleInput
+												inputType={'text'}
+												name={colorSite.name}
+												controlFunc={this.handleColorSiteNameChange(idx)}
+												content={colorSite.name}
+												placeholder={``}
+											/>
+											<button type="button" onClick={this.handleRemoveColorSite(idx)} className="button_minus"><i className="icon icon-minus"></i></button>
+										</div>
+									))}
+									<button type="button" onClick={this.handleAddColorSite} className="button_add"><i className="icon icon-plus"></i></button>
+									<h5 className="title_desc">Компоненты сайта:</h5>
+									<CheckboxGroup
+										setName={'selectedComponentSite'}
+										controlFunc={this.handleComponentSiteSelections}
+										type={'checkbox'}
+										selectedOptions={this.state.selectedComponentSite}
+										options={this.state.componentSelectionsSite} />
+									<button type="button" onClick={this.handleAddComponentAnotherSite} className="btn_another_check">
+										<svg width="15" height="15" className="svg_check">
+											<rect width="15" height="15" className="rect_check" />
+										</svg>Другое
 								</button>
-								{this.state.componentAnotherSite.map((componentAnotherSite, idx) => (
-									<div className="item_form" key={idx}>
-										<span className="input_span">{`${idx + 1}  `}</span>
-										<SingleInput
-											inputType={'text'}
-											name={componentAnotherSite.name}
-											controlFunc={this.handleComponentAnotherSiteNameChange(idx)}
-											content={componentAnotherSite.name}
-											placeholder={''}
-										/>
-
-									</div>
-								))}
-
-								<h5 className="title_desc">Предусматривать ли место под баннерную рекламу:</h5>
-								<CheckboxOrRadioGroup
-									setName={'bannerSelectionSite'}
-									controlFunc={this.handleBannerSiteSelection}
-									type={'radio'}
-									options={this.state.bannerOptionsSite}
-									selectedOptions={this.state.bannerSelectionSite} />
-
-								<h5 className="title_desc">Предусматривать ли место для счетчиков посещений:</h5>
-								<CheckboxOrRadioGroup
-									setName={'counterSelectionSite'}
-									controlFunc={this.handleCounterSiteSelection}
-									type={'radio'}
-									options={this.state.counterOptionsSite}
-									selectedOptions={this.state.counterSelectionSite} />
-
-
-								<h5 className="title_desc">Срок исполнения заказа (сколько готов ждать заказчик):</h5>
-								<CheckboxOrRadioGroup
-									setName={'deadlineSelectionSite'}
-									controlFunc={this.handleDeadlineSiteSelection}
-									type={'radio'}
-									options={this.state.deadlineOptionsSite}
-									selectedOptions={this.state.deadlineSelectionSite} />
-								<button type="button" onClick={this.handleAdddeadlineAnotherSite} className="small btn_another_radio">
-									<svg height="30" width="30">
-										<circle cx="10" cy="20" r="7.3" stroke="#c1c1c1" strokeWidth="1" fill="#fff" />
-									</svg>Другое
+									{this.state.componentAnotherSite.map((componentAnotherSite, idx) => (
+										<div className="item_form" key={idx}>
+											<span className="input_span">{`${idx + 1}  `}</span>
+											<SingleInput
+												inputType={'text'}
+												name={componentAnotherSite.name}
+												controlFunc={this.handleComponentAnotherSiteNameChange(idx)}
+												content={componentAnotherSite.name}
+												placeholder={''}
+											/>
+										</div>
+									))}
+									<h5 className="title_desc">Предусматривать ли место под баннерную рекламу:</h5>
+									<CheckboxOrRadioGroup
+										setName={'bannerSelectionSite'}
+										controlFunc={this.handleBannerSiteSelection}
+										type={'radio'}
+										options={this.state.bannerOptionsSite}
+										selectedOptions={this.state.bannerSelectionSite} />
+									<h5 className="title_desc">Предусматривать ли место для счетчиков посещений:</h5>
+									<CheckboxOrRadioGroup
+										setName={'counterSelectionSite'}
+										controlFunc={this.handleCounterSiteSelection}
+										type={'radio'}
+										options={this.state.counterOptionsSite}
+										selectedOptions={this.state.counterSelectionSite} />
+									<h5 className="title_desc">Срок исполнения заказа (сколько готов ждать заказчик):</h5>
+									<CheckboxOrRadioGroup
+										setName={'deadlineSelectionSite'}
+										controlFunc={this.handleDeadlineSiteSelection}
+										type={'radio'}
+										options={this.state.deadlineOptionsSite}
+										selectedOptions={this.state.deadlineSelectionSite} />
+									<button type="button" onClick={this.handleAdddeadlineAnotherSite} className="small btn_another_radio">
+										<svg height="30" width="30">
+											<circle cx="10" cy="20" r="7.3" stroke="#c1c1c1" strokeWidth="1" fill="#fff" />
+										</svg>Другое
 				</button>
-								{this.state.deadlineAnotherSite.map((deadlineAnotherSite, idx) => (
-									<div className="item_form" key={idx}>
-										<span className="input_span">{`${idx + 1}  `}</span>
-										<SingleInput
-											inputType={'text'}
-											name={deadlineAnotherSite.name}
-											controlFunc={this.handleDeadlineAnotherSiteNameChange(idx)}
-											content={deadlineAnotherSite.name}
-											placeholder={''}
-										/>
+									{this.state.deadlineAnotherSite.map((deadlineAnotherSite, idx) => (
+										<div className="item_form" key={idx}>
+											<span className="input_span">{`${idx + 1}  `}</span>
+											<SingleInput
+												inputType={'text'}
+												name={deadlineAnotherSite.name}
+												controlFunc={this.handleDeadlineAnotherSiteNameChange(idx)}
+												content={deadlineAnotherSite.name}
+												placeholder={''}
+											/>
 
-									</div>
-								))}
-
-								<h5 className="title_desc">Пользовательский сценарий:</h5>
-								<p className="title_text" >(Описать шаги, как посетители  будут взаимодействовать с приложением) Чем больше сценарий, тем лучше мы поймем видение клиента.</p>
-								<p className="title_text">На примере интернет магазина:</p>
-								<ol className="title_text">
-									<li> Посетитель зашел на сайт интернет магазина по адресу  www.name.com</li>
-									<li> На главной странице увидел товар, нажал на него</li>
-									<li> Попал на страницу с детальным описание товара </li>
-									<li> Нажал на кнопку “добавить в корзину”</li>
-									<li> Зашел в саму корзину, заполнил адрес доставки</li>
-									<li> Оплатил через банковскую карту</li>
-								</ol>
-
-								<p className="title_desc">Ваш сценарий: </p>
-								{this.state.sceneSite.map((sceneSite, idx) => (
-									<div className="item_form" key={idx}>
-										<span className="input_span">{`${idx + 1}  `}</span>
-										<SingleInput
-											inputType={'text'}
-											name={sceneSite.name}
-											controlFunc={this.handleSceneSiteNameChange(idx)}
-											content={sceneSite.name}
-											placeholder={``}
-										/>
-										<button type="button" onClick={this.handleRemoveSceneSite(idx)} className="button_minus"><i className="icon icon-minus"></i></button>
-									</div>
-								))}
-								<button type="button" onClick={this.handleAddSceneSite} className="button_add"><i className="icon icon-plus"></i></button>
-
-								<br />
-								<br />
-
-								<button
-									className="button_clear"
-									onClick={this.handleClearForm}>Clear form</button>
-								<input
-									type="submit"
-									className="button_submit"
-									value="Submit"
-								/>
-								<Modal
-									isOpen={this.state.modalIsOpen}
-									onAfterOpen={this.afterOpenModal}
-									onRequestClose={this.closeModal}
-									style={customStyles}
-									ariaHideApp={false}
-									contentLabel="Accepted"
+										</div>
+									))}
+									<h5 className="title_desc">Пользовательский сценарий:</h5>
+									<p className="title_text" >(Описать шаги, как посетители  будут взаимодействовать с приложением) Чем больше сценарий, тем лучше мы поймем видение клиента.</p>
+									<p className="title_text">На примере интернет магазина:</p>
+									<ol className="title_text">
+										<li> Посетитель зашел на сайт интернет магазина по адресу  www.name.com</li>
+										<li> На главной странице увидел товар, нажал на него</li>
+										<li> Попал на страницу с детальным описание товара </li>
+										<li> Нажал на кнопку “добавить в корзину”</li>
+										<li> Зашел в саму корзину, заполнил адрес доставки</li>
+										<li> Оплатил через банковскую карту</li>
+									</ol>
+									<p className="title_desc">Ваш сценарий: </p>
+									{this.state.sceneSite.map((sceneSite, idx) => (
+										<div className="item_form" key={idx}>
+											<span className="input_span">{`${idx + 1}  `}</span>
+											<SingleInput
+												inputType={'text'}
+												name={sceneSite.name}
+												controlFunc={this.handleSceneSiteNameChange(idx)}
+												content={sceneSite.name}
+												placeholder={``}
+											/>
+											<button type="button" onClick={this.handleRemoveSceneSite(idx)} className="button_minus"><i className="icon icon-minus"></i></button>
+										</div>
+									))}
+									<button type="button" onClick={this.handleAddSceneSite} className="button_add"><i className="icon icon-plus"></i></button>
+									<br />
+									<br />
+									<button
+										className="button_clear"
+										onClick={this.handleClearForm}>Clear form</button>
+									<input
+										type="submit"
+										className="button_submit"
+										value="Submit"
+									/>
+									<Modal
+										isOpen={this.state.modalIsOpen}
+										onAfterOpen={this.afterOpenModal}
+										onRequestClose={this.closeModal}
+										style={customStyles}
+										ariaHideApp={false}
+										contentLabel="Accepted"
 									>
-
-									<h2 className="modal_name" ref={subtitle => this.subtitle = subtitle}>Namba Soft</h2>
-									<button className="modal_close" onClick={this.closeModal}><i className="icon icon-cross"></i></button>
-									<div>Ваш запрос отправлен. Проверьте свою почту в течение нескольких минут.</div>
-									<div>
-										<button className="modal_ok" onClick={this.closeModal}>OK</button>
-									</div>
-								</Modal>
+										<h2 className="modal_name" ref={subtitle => this.subtitle = subtitle}>Namba Soft</h2>
+										<button className="modal_close" onClick={this.closeModal}><i className="icon icon-cross"></i></button>
+										<div>Ваш запрос отправлен. Проверьте свою почту в течение нескольких минут.</div>
+										<div>
+											<button className="modal_ok" onClick={this.closeModal}>OK</button>
+										</div>
+									</Modal>
 								</form>
 							</div>
 						</div>
 					</div>
 				</div>
-
 			</div>
 		);
 	}
