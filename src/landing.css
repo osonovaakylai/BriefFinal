@@ -294,7 +294,7 @@ section.your-idea {
 
 @media screen and (max-width: 960px) {
   header {
-    padding: 0 !important; } }
+    padding: 30px !important; } }
 
 @media screen and (max-width: 640px) {
   p.com-text {

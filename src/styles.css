@@ -423,3 +423,10 @@ svg:not(:root) {
     margin-bottom: 4%;
     border-radius: 3px;
 }
+
+.header_icon{
+    background: transparent;
+}
+.icon-menu{
+    color: #fff;
+}

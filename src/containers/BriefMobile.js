@@ -534,18 +534,14 @@ class BriefMobile extends Component {
                   </NavBar>
                   <div className="mobile-version uk-hidden@m">
                      <div className="boundary-align">
-                        <Icon className="uk-button uk-button-default" type="button"></Icon>
+                        <button className="header_icon" type="button"><i className="icon icon-2x icon-menu"></i></button>
                         <Dropdown className="uk-margin-remove" offset={'5'} mode={'click'}>
                            <ul className="uk-nav uk-dropdown-nav">
-                              <li><a href="#service" className="translate">Services</a></li>
-                              <li className="uk-nav-divider"></li>
-                              <li><a href="#process" className="translate">Process</a></li>
-                              <li className="uk-nav-divider"></li>
-                              <li><a href="#projects" className="translate">Projects</a></li>
-                              <li className="uk-nav-divider"></li>
-                              <li className="technologies_head"><a href="#tech" className="translate">Technologies</a></li>
-                              <li className="uk-nav-divider"></li>
-                              <li className="last"><a href="" className="translate">Get in touch</a></li>
+						   <li className="uk-margin-right"><Link to="/" className="home_brief">Home</Link></li>
+						   <li className="uk-nav-divider"></li>
+                           <li className="uk-margin-right"><Link to="/brief" className="mob_brief">Mobile brief</Link></li>
+						   <li className="uk-nav-divider"></li>
+                           <li className="uk-margin-right"><Link to="/brief-web" className="web_brief">Website brief</Link></li>
                            </ul>
                         </Dropdown>
                      </div>
