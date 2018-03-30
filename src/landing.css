@@ -78,8 +78,8 @@ header {
   background: #0d2e3f; }
   header nav.uk-navbar-container {
     background: transparent !important;
-    padding-top: 30px;
-    padding-bottom: 30px; }
+    padding-top: 10px;
+    padding-bottom: 23px; }
     header nav.uk-navbar-container div ul li a {
       color: #fff;
       text-transform: none;
